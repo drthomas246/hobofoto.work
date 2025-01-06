@@ -1,0 +1,24 @@
+---
+import { Image } from "astro:assets";
+import ArrowLeft from "../images/arrow-left.svg";
+import ArrowRight from "../images/arrow-right.svg";
+---
+
+<div class="pnWrapper">
+  {
+    0 < Astro.props.prev.length && (
+      <a href={`/${Astro.props.directoryPath}/${Astro.props.prev[0].id}`}>
+        <Image src={ArrowLeft} alt="arrow-left" />
+        <h3> {Astro.props.prev[0].title}</h3>
+      </a>
+    )
+  }
+  {
+    0 < Astro.props.next.length && (
+      <a href={`/${Astro.props.directoryPath}/${Astro.props.next[0].id}`}>
+        <h3>{Astro.props.next[0].title}</h3>
+        <Image src={ArrowRight} alt="arrow-right" />
+      </a>
+    )
+  }
+</div>

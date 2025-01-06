@@ -1,0 +1,104 @@
+---
+import { Image } from "astro:assets";
+import House from "../../images/house.svg";
+import Layout from "../../layouts/layout.astro";
+import Portrait from "../../images/portrait.jpg";
+
+const year = new Date().getFullYear();
+---
+
+<Layout title="About me" description="HoBoFoTo.work Portfolio site">
+  <div class="about">
+    <div class="container">
+      <div class="header">
+        <h1 class="english">About me</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="japanese">
+              <a href="/" class="home">
+                <!-- house.svg © Fonticons, Inc. -->
+                <Image
+                  src={House}
+                  alt="home"
+                  width={20}
+                  height={20}
+                  class="house"
+                />
+                <span>ホーム</span>
+              </a>
+            </li>
+            {Astro.props.blog ? (
+              <li class="english"><a href="/software">About me</a></li>
+              <li class="japanese">{Astro.props.blog}</li>
+            ):(
+              <li class="english">About me</li>
+            )}
+          </ol>
+        </nav>
+      </div>
+      <div class="article">
+        <div class="portfolio">
+          <div class="portfolio-left">
+            <h2 class="japanese2">ポートフォリオ</h2>
+            <p class="name japanese2"><ruby>山原<rt>やまはら</rt></ruby> <ruby>喜寛<rt>よしひろ</rt></ruby></p>
+            <h3 class="japanese2">履歴</h3>
+            <ul>
+              <li class="japanese2">1979年4月生まれ</li>
+              <li class="japanese2">2002年9月 某国立大学教育学部数学科学士号取得</li>
+              <li class="japanese2">2002年12月～2007年3月 某市中学校講師</li>
+              <li class="japanese2">2007年4月～2017年3月 某市中学校教諭</li>
+              <li class="japanese2">2017年4月～2022年3月 某市中学校首席</li>
+              <li class="japanese2">2022年4月～現在 某市中学校指導教諭(情報教育)</li>
+            </ul>
+            <h3 class="japanese2">スキル</h3>
+            <div class="skill">
+              <div class="skill-left">
+                <h4 class="japanese2">校務分掌系</h4>
+                <ul>
+                  <li class="japanese2">教務(教務主任5年)</li>
+                  <li class="japanese2">進路指導(進路指導主事3年)</li>
+                  <li class="japanese2">学年運営(学年主任2年)</li>
+                  <li class="japanese2">生徒会(担当4年)</li>
+                  <li class="japanese2">PTA(会長1年,会計1年,書記5年)</li>
+                  <li class="japanese2">不登校支援<br/>(生徒支援コーディネーター1年)</li>
+                  <li class="japanese2">学校保健(保健主事1年)</li>
+                </ul>
+              </div>
+              <div class="skill-right">
+                <h4 class="japanese2">IT系</h4>
+                <ul>
+                  <li class="japanese2">HTML({year-2000}年)</li>
+                  <li class="japanese2">CSS({year-2000}年)</li>
+                  <li class="japanese2">JavaScript({year-2000}年)</li>
+                  <li class="japanese2">Excel VBA({year-2015}年)</li>
+                  <li class="japanese2">Python({year-2019}年)</li>
+                  <li class="japanese2">TypeScript({year-2022}年)</li>
+                  <li class="japanese2">React({year-2022}年)</li>
+                  <li class="japanese2">Next.js({year-2024}年)</li>
+                  <li class="japanese2">Astro({year-2024}年)</li>
+                  
+                  
+                  
+                </ul>
+              </div>
+            </div>
+            <h2 class="japanese2">問い合わせフォーム</h2>
+            <p><a href="./aboutme/contact">こちら</a>にあるフォームからお問い合わせください</p>
+
+            <h2 class="japanese2">連絡先</h2>
+            <p>お急ぎの連絡は下記メールアドレスまで</p>
+            <a href="mailto:yoshihiro@yamahara.email">yoshihiro&#64;yamahara.email</a>
+          </div>
+          <div class="portfolio-right">
+            <Image
+              src={Portrait}
+              alt="portrait"
+              width={400}
+              height={400}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

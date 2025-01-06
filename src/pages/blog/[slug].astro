@@ -1,0 +1,56 @@
+---
+import { Image } from "astro:assets";
+import { load } from "cheerio";
+import hljs from "highlight.js";
+import "highlight.js/styles/github-dark.css";
+import PrevNext from "../../components/PrevNextBlog.astro";
+import Layout from "../../layouts/blog.astro";
+import { getBlogDetail, getBlogs } from "../../libs/microcms";
+
+export async function getStaticPaths() {
+  const response = await getBlogs("blogs", { fields: ["id"] });
+  return response.contents.map((blog: any) => ({
+    params: { slug: blog.id },
+  }));
+}
+
+const { slug } = Astro.params;
+const blog = await getBlogDetail("blogs", slug);
+let contents = "";
+blog.content.forEach((content: any) => {
+  if (content.fieldId === "html") {
+    contents += content.html;
+  }
+  if (content.fieldId === "richeditor") {
+    const $ = load(content.richeditor, null, false);
+    $("pre code").each((_, elm) => {
+      const result = hljs.highlightAuto($(elm).text());
+      $(elm).html(result.value);
+      $(elm).addClass("hljs");
+    });
+    contents += $.html();
+  }
+});
+const prev = await getBlogs("blogs", {
+  limit: 1,
+  orders: "-publishedAt",
+  filters: `publishedAt[less_than]${blog.publishedAt}`,
+});
+const next = await getBlogs("blogs", {
+  limit: 1,
+  orders: "publishedAt",
+  filters: `publishedAt[greater_than]${blog.publishedAt}`,
+});
+---
+
+<Layout title={blog.title} description="HoBoFoTo.work Blog" blog={blog.title}>
+  <div class="writing">
+    <div class="title">
+      <h2 class="japanese">{blog.title}</h2>
+      <Image src={blog.eyecatch.url} alt="image" width={1200} height={400} />
+    </div>
+    <p class="japanese">{new Date(blog.publishedAt).toLocaleDateString()}</p>
+    <div class="japanese2" set:html={contents} />
+    <PrevNext directoryPath="blog" prev={prev.contents} next={next.contents} />
+  </div>
+</Layout>

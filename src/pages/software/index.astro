@@ -1,0 +1,42 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/software.astro";
+
+const response = await getCollection("software");
+// 日付順に並び替え
+const orderedSoftware = response.sort((a: any, b: any): number => {
+  const dayA: any = new Date(a.data.date);
+  const dayB: any = new Date(b.data.date);
+  const diffMilliSec = dayB - dayA;
+  return diffMilliSec;
+});
+---
+
+<Layout title="Softwares" description="Yamahara Yoshihiro's Softwares site">
+  <ul class="article-list">
+    {
+      orderedSoftware.map((singleSoftware: any) => (
+        <li class="article-item">
+          <div class="article-left">
+            <a href={"/software/" + singleSoftware.slug}>
+              <h2 class="japanese">{singleSoftware.data.title}</h2>
+            </a>
+            <div class="date japanese2">
+              {new Date(singleSoftware.data.date).toLocaleDateString()}
+            </div>
+            <div class="summary japanese2">{singleSoftware.data.excerpt}</div>
+          </div>
+          <div class="article-right">
+            <Image
+              src={singleSoftware.data.image}
+              alt="software-image"
+              width="1200"
+              height="400"
+            />
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>

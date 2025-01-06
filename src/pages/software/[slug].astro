@@ -1,0 +1,79 @@
+---
+import { Image } from "astro:assets";
+import { getCollection, getEntry } from "astro:content";
+import "highlight.js/styles/github-dark.css";
+import PrevNext from "../../components/PrevNext.astro";
+import Layout from "../../layouts/software.astro";
+
+export interface Props {
+  singleSoftware: any;
+}
+
+export async function getStaticPaths() {
+  // すべてのソフトウェアを取得
+  const allSoftware = await getCollection("software");
+  // ソフトウエアパスの設定
+  const pathsData = allSoftware.map((singleSoftware: any) => ({
+    params: {
+      slug: singleSoftware.slug,
+    },
+    props: {
+      singleSoftware: singleSoftware,
+    },
+  }));
+  return pathsData;
+}
+
+// prevの取得
+const allSoftware = await getCollection("software");
+const nowSoftware = new Date(Astro.props.singleSoftware.data.date);
+let orderedSoftware = allSoftware.sort((a: any, b: any): number => {
+  const dayA: any = new Date(a.data.date);
+  const dayB: any = new Date(b.data.date);
+  const diffMilliSec = dayB - dayA;
+  return diffMilliSec;
+});
+const prev = orderedSoftware.filter((software: any) => {
+  const date = new Date(software.data.date);
+  return date < nowSoftware;
+});
+// nextの取得
+orderedSoftware = allSoftware.sort((a: any, b: any): number => {
+  const dayA: any = new Date(a.data.date);
+  const dayB: any = new Date(b.data.date);
+  const diffMilliSec = dayA - dayB;
+  return diffMilliSec;
+});
+const next = orderedSoftware.filter((software: any) => {
+  const date = new Date(software.data.date);
+  return date > nowSoftware;
+});
+// 本文をhtmlに
+const entry = await getEntry("software", Astro.props.singleSoftware.slug);
+const { Content } = await entry!.render();
+---
+
+<Layout
+  title={Astro.props.singleSoftware.data.title}
+  description="Yamahara Yoshihiro's software"
+  blog={Astro.props.singleSoftware.data.title}
+>
+  <div class="writing">
+    <div class="title">
+      <h2 class="japanese">{Astro.props.singleSoftware.data.title}</h2>
+      <Image
+        src={Astro.props.singleSoftware.data.image}
+        alt="image"
+        width={1200}
+        height={400}
+      />
+    </div>
+    <p class="japanese">
+      {new Date(Astro.props.singleSoftware.data.date).toLocaleDateString()}
+    </p>
+    <div class="japanese2">
+      <Content />
+    </div>
+    <PrevNext directoryPath="software" prev={prev} next={next} />
+  </div>
+</Layout>

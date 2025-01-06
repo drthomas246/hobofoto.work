@@ -1,0 +1,39 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../../layouts/blog.astro";
+import { getBlogs } from "../../libs/microcms";
+
+// 日付順に並び替え
+const response = await getBlogs("blogs", {
+  fields: ["id", "title", "publishedAt", "metadescription", "eyecatch"],
+  orders: "-publishedAt",
+});
+---
+
+<Layout title="Blogs" description="HoBoFoTo.work Blogs">
+  <ul class="article-list">
+    {
+      response.contents.map((singleBlog: any) => (
+        <li class="article-item">
+          <div class="article-left">
+            <a href={"/blog/" + singleBlog.id}>
+              <h2 class="japanese">{singleBlog.title}</h2>
+            </a>
+            <div class="date japanese2">
+              {new Date(singleBlog.publishedAt).toLocaleDateString()}
+            </div>
+            <div class="summary japanese2">{singleBlog.metadescription}</div>
+          </div>
+          <div class="article-right">
+            <Image
+              src={singleBlog.eyecatch.url}
+              alt="article-image"
+              width={singleBlog.eyecatch.width}
+              height={singleBlog.eyecatch.height}
+            />
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
