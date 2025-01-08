@@ -1,6 +1,5 @@
 ---
 import { Image } from "astro:assets";
-import ContactForm from "../../components/ContactForm.jsx";
 import House from "../../images/house.svg";
 import Layout from "../../layouts/layout.astro";
 ---
@@ -32,9 +31,11 @@ import Layout from "../../layouts/layout.astro";
       </div>
       <div class="article">
         <div class="contact">
-          <h1 class="japanese2">問い合わせフォーム</h1>
-          <p>下記フォームからお気軽にお問い合わせください</p>
-          <ContactForm client:load />
+          <h1 class="japanese2">送信完了</h1>
+          <p class="japanese2">
+            返事待てしばらくかかる場合があります。ご了承ください。
+          </p>
+          <p class="japanese2"><a href="/aboutme">About meに戻る</a></p>
         </div>
       </div>
     </div>

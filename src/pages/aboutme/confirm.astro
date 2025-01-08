@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import ContactForm from "../../components/ContactForm.jsx";
+import Confirms from "../../components/Confirm.jsx";
 import House from "../../images/house.svg";
 import Layout from "../../layouts/layout.astro";
 ---
@@ -32,11 +32,12 @@ import Layout from "../../layouts/layout.astro";
       </div>
       <div class="article">
         <div class="contact">
-          <h1 class="japanese2">問い合わせフォーム</h1>
-          <p>下記フォームからお気軽にお問い合わせください</p>
-          <ContactForm client:load />
+          <h1 class="japanese2">内容確認</h1>
+          <p>下記の内容でよろしいですか</p>
+          <Confirms client:load />
         </div>
       </div>
     </div>
   </div>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </Layout>

@@ -318,6 +318,64 @@ body{
 .writing summary::marker{
   cursor: pointer;
 }
+.writing table{
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  max-width: 700px;
+  overflow: hidden;
+  text-align: center;
+}
+.writing tr{
+  background-color: #e6f1f6;
+}
+.writing tr:nth-child(even){
+  background-color: #fff;
+}
+.writing th, .writing td{
+  padding: 1em;
+}
+.writing thead th{
+  background-color: #4d9bc1;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+}
+.writing tbody th{
+  color: #4d9bc1;
+}
+@media screen and (max-width: 787px){
+  .writing table{
+    text-align: left;
+  }
+  .writing thead{
+    display:none;
+  }
+  .writing tr{
+    background-color: unset;
+  }
+  .writing th, .writing td{
+    display: block;
+    border: 0;
+    border-bottom: 1px solid #4d9bc1;
+  }
+  .writing tbody th{
+    background: #4d9bc1;
+    color:#fff;
+    text-align: center;
+  }
+  .writing td::before{
+    content: attr(data-label);
+    background-color: #e6f1f6;
+    font-weight: bold;
+    display: inline-block;
+    width: 20%;
+    min-width: 4em;
+    text-align: center;
+    margin-right: 0.5em;
+    padding: 4px;
+  }
+}
 .photo .photo-list{
   position: relative;
   display: grid;
@@ -430,22 +488,39 @@ body{
   overflow: auto;
   height: calc(100vh - 140px);
 }
-input[type=text], input[type=email], textarea {
+.contact .part{
+  margin-bottom: 1rem;
+}
+.contact .error{
+  color: red;
+}
+.contact-message{
+  white-space: pre-wrap;
+}
+.contact-message-textarea{
+  display: none;
+}
+.contact .confirm label, .contact .confirm p{
+  margin-bottom: 1rem;
+}
+.contact .confirm p{
+  margin-left: 1rem;
+}
+.contact input[type=text], .contact input[type=email], .contact textarea {
   width: 100%;
   font-family: inherit;
   font-size: inherit;
   padding: 0.4rem;
-  margin-bottom: 1rem;
   box-sizing: border-box;
   border: solid 1px grey;
   border-radius: 5px;
 }
 
-label {
+.contact label {
   font-size: 1.4rem;
 }
 
-button {
+.contact button {
   width: 100%;
   border: none;
   color: white;
@@ -455,13 +530,14 @@ button {
   background-color: #35BCFF;
   transition-duration: 0.4s;
   border-radius: 5px;
+  margin-bottom: 1rem;
 }
 
-button:hover {
+.contact button:hover {
   opacity: 0.8;
   cursor: pointer;
 }
 
-button:focus {
+.contact button:focus {
   outline: none;
 }
