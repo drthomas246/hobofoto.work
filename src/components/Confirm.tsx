@@ -58,7 +58,7 @@ const Confirm = () => {
       </div>
       <div
         className="g-recaptcha"
-        data-sitekey="6LdUZrEqAAAAAJdj67rGcySGijwxpThnMHoh-TEj"
+        data-sitekey={import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY}
       ></div>
       <button type="submit" className="japanese2">
         送信する
