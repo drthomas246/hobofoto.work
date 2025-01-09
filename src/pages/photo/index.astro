@@ -51,7 +51,11 @@ const getGridSpan = (width: number, height: number) => {
                 class="card"
                 style={getGridSpan(singlePhoto.image.width, singlePhoto.image.height)}
               >
-                <a href={singlePhoto.image.url} data-lightbox="lightbox" data-title=`${singlePhoto.title} (${new Date(singlePhoto.publishedAt).toLocaleDateString()})`>
+                <a href={singlePhoto.image.url} data-lightbox="lightbox" data-title=`${singlePhoto.title} (${new Date(singlePhoto.publishedAt).toLocaleDateString("ja-JP", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })})`>
                   <Image
                     src={singlePhoto.image.url}
                     alt={singlePhoto.title}
