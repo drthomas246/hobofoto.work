@@ -49,7 +49,15 @@ const next = await getBlogs("blogs", {
       <h2 class="japanese">{blog.title}</h2>
       <Image src={blog.eyecatch.url} alt="image" width={1200} height={400} />
     </div>
-    <p class="japanese">{new Date(blog.publishedAt).toLocaleDateString()}</p>
+    <p class="japanese">
+      {
+        new Date(blog.publishedAt).toLocaleDateString("ja-JP", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      }
+    </p>
     <div class="japanese2" set:html={contents} />
     <PrevNext directoryPath="blog" prev={prev.contents} next={next.contents} />
   </div>

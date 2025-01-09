@@ -23,7 +23,11 @@ const orderedSoftware = response.sort((a: any, b: any): number => {
               <h2 class="japanese">{singleSoftware.data.title}</h2>
             </a>
             <div class="date japanese2">
-              {new Date(singleSoftware.data.date).toLocaleDateString()}
+              {new Date(singleSoftware.data.date).toLocaleDateString("ja-JP", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
             </div>
             <div class="summary japanese2">{singleSoftware.data.excerpt}</div>
             <div class="bottom">

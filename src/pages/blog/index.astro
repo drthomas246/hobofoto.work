@@ -20,7 +20,11 @@ const response = await getBlogs("blogs", {
               <h2 class="japanese">{singleBlog.title}</h2>
             </a>
             <div class="date japanese2">
-              {new Date(singleBlog.publishedAt).toLocaleDateString()}
+              {new Date(singleBlog.publishedAt).toLocaleDateString("ja-JP", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
             </div>
             <div class="summary japanese2">{singleBlog.metadescription}</div>
             <div class="bottom">
