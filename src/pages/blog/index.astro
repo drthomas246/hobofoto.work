@@ -23,6 +23,9 @@ const response = await getBlogs("blogs", {
               {new Date(singleBlog.publishedAt).toLocaleDateString()}
             </div>
             <div class="summary japanese2">{singleBlog.metadescription}</div>
+            <div class="bottom">
+              <a href={"/blog/" + singleBlog.id}>続きを読む</a>
+            </div>
           </div>
           <div class="article-right">
             <Image

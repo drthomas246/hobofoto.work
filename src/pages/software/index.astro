@@ -26,6 +26,9 @@ const orderedSoftware = response.sort((a: any, b: any): number => {
               {new Date(singleSoftware.data.date).toLocaleDateString()}
             </div>
             <div class="summary japanese2">{singleSoftware.data.excerpt}</div>
+            <div class="bottom">
+              <a href={"/software/" + singleSoftware.slug}>続きを読む</a>
+            </div>
           </div>
           <div class="article-right">
             <Image

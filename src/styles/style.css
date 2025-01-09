@@ -249,6 +249,16 @@ body{
   overflow: auto;
   height: calc(100vh - 140px);
 }
+.article-left a:has(> h2){
+  color: #0e0d0d;
+}
+.article-item .bottom{
+  margin: auto 20px 20px auto;
+}
+.article-item .bottom a{
+  padding: 20px 40px;
+  border: #35BCFF solid 1px;
+}
 .article-item{
   display: flex;
   column-gap: 20px;
@@ -540,4 +550,7 @@ body{
 
 .contact button:focus {
   outline: none;
+}
+.about a, .blog a, .photo a, .software a{
+  color: blue;
 }

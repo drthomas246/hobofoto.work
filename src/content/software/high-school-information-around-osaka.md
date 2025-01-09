@@ -121,4 +121,4 @@ $ npm install
 
 ### 🎫License
 
-"大阪周辺高校情報" is under [Business Source License 1.1 modification](./LICENSE.md).
+"大阪周辺高校情報" is under [Business Source License 1.1 modification](https://github.com/drthomas246/OsakaHightSchool/blob/master/LICENSE.md).

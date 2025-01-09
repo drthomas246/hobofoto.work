@@ -91,7 +91,7 @@ image: "/software/novel-editor.webp"
 ### Yahoo! 校正支援
 
 - Yahoo! 校正支援を使って校正をしています。  
-  そのためには、[https://www.yahoo-help.jp/app/answers/detail/p/537/a_id/43398](https://www.yahoo-help.jp/app/answers/detail/p/537/a_id/43398)を参考にアプリケーション ID を作成し、Release フォルダーにある appid.txt のデータに、Client ID を記入してください。
+  そのためには、[https://support.yahoo-net.jp/PccDeveloper/s/article/H000006122](https://support.yahoo-net.jp/PccDeveloper/s/article/H000006122)を参考にアプリケーション ID を作成し、Release フォルダーにある appid.txt のデータに、Client ID を記入してください。
 
 ## 開発者向け
 
@@ -231,7 +231,7 @@ sphinx-apidoc -o ./sphinx/source ./source
 - Version：0.9.0b
 - 作者：山原　喜寛 (Yamahara Yoshihiro)
 - 著作年：2019-2021
-- HP：https://www.hobofoto.net/
+- HP：https://www.hobofoto.work/
 - E-mail：yoshihiro@yamahara.email
 - ライセンス：[GNU GPL3 License](https://github.com/drthomas246/novel_editor/blob/master/LICENSE.md)
 
@@ -274,27 +274,19 @@ sphinx-apidoc -o ./sphinx/source ./source
 - Sphinx  
   Copyright(C) 2007, by the Sphinx team (see AUTHOS file).  
   Released under the Sphinx licens  
-  [https://raw.githubusercontent.com/sphinx-doc/sphinx/3.x/LICENSE](https://raw.githubusercontent.com/sphinx-doc/sphinx/3.x/LICENSE)
+  [https://raw.githubusercontent.com/sphinx-doc/sphinx/refs/heads/master/LICENSE.rst](https://raw.githubusercontent.com/sphinx-doc/sphinx/refs/heads/master/LICENSE.rst)
 
 - sphinx-tsegsearch  
   Author: Yasushi Masuda  
   MIT License (MIT)
 
-### 参考文献
-
-- narito ブログ  
-  [Tkinter で、行番号付き Text](https://torina.top/detail/412/)  
-  [Tkinter で、検索ボックス](https://torina.top/detail/407/)  
-  [Tkinter で、Python コードをハイライトする](https://torina.top/detail/415/)  
-  Copyright Narito Takizawa All Rights Reserved.
-
 ### 使用フォント
 
 - 数式フォント　 ver1.3  
-  Copyright(C) 2016, [キユマヤ園](http://sapphire.hacca.jp/font/fontabout.html)
+  Copyright(C) 2016, [キユマヤ園](https://kiyumaya.booth.pm/items/3723139)
 
 - あいでぃーぽっぷまる  
-  Copyright(C) 2017, [Masaru Inoue](http://idfont.jp/infos_mb.htm) All Rights Reserved.
+  Copyright(C) 2017, [idfont / 井上デザイン](https://idfont.jp/infos_mb.html) All Rights Reserved.
 
 ### 使用アイコン
 
