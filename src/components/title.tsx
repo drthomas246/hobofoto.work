@@ -205,15 +205,18 @@ const Title = ({ images }: { images: any }) => {
     }
     hero.current[number].current!.style.display = "block";
   }, [number]);
-
+  useEffect(() => {
+    window.addEventListener("touchstart", flickStart);
+    window.addEventListener("touchmove", flicking);
+    window.addEventListener("touchend", flickEnd);
+    return () => {
+      window.removeEventListener("touchstart", flickStart);
+      window.removeEventListener("touchmove", flicking);
+      window.removeEventListener("touchend", flickEnd);
+    };
+  }, []);
   return (
-    <div
-      className="hero"
-      onWheel={handleWheel}
-      onTouchStart={flickStart}
-      onTouchMove={flicking}
-      onTouchEnd={flickEnd}
-    >
+    <div className="hero" onWheel={handleWheel}>
       <HeroComponent
         ref={hero.current[0]}
         h1={true}
