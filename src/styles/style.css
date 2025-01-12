@@ -6,6 +6,8 @@ body{
   position: absolute;
   top: 70px;
   left: 250px;
+}
+.breadcrumb ol{
   display: flex;
   flex-wrap: wrap;
   list-style: none;
@@ -21,14 +23,15 @@ body{
 }
 .breadcrumb li:not(:last-of-type)::after {
   content: ">";
-  margin: 0 .6em; /* 記号の左右の余白 */
-  color: #777; /* 記号の色 */
+  margin: 0 .6em;
+  color: #777;
 }
 .hero{
+  position: inherit;
   width: 100vw;
   height: 100vh;
 }
-.hero .hero_1,.hero .hero_2,.hero .hero_3,.hero .hero_4,.hero .hero_5{
+.hero .hero_content{
   display: none;
 }
 .hero-title{
@@ -39,27 +42,51 @@ body{
   font-size: 72px;
   font-weight: 700;
 }
-.hero-left{
+.hero_content:nth-child(even) .hero-image{
   position: absolute;
+  width:33vw;
   top: 0;
   left: 0;
 }
-.left-string{
+.hero_content:nth-child(odd) .string{
+  position: absolute;
   top:50vh;
   left: 10vw;
   background-color: rgba(255, 255, 255, 0.8);
   z-index: 10;
 }
-.hero-right{
+.hero_content:nth-child(odd) .summary-string{
   position: absolute;
+  top:calc(50vh + 40px);
+  left: 10vw;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.hero_content:nth-child(odd) .scroll-btn{
+  left: calc(25vw - 16px);
+}
+.hero_content:nth-child(odd) .hero-image{
+  position: absolute;
+  width:33vw;
   right: 0;
   top: 0;
 }
-.right-string{
+.hero_content:nth-child(even) .string{
+  position: absolute;
   top:50vh;
   right: 10vw;
   background-color: rgba(255, 255, 255, 0.8);
   z-index: 10;
+}
+.hero_content:nth-child(even) .summary-string{
+  position: absolute;
+  top:calc(50vh + 40px);
+  right: 10vw;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.hero_content:nth-child(even) .scroll-btn{
+  right: calc(25vw - 16px);
 }
 .hero-title span{
   display: inline-block;
@@ -82,30 +109,22 @@ body{
   font-style: normal;
 }
 .hero .marker {
-  background-image: linear-gradient(transparent 60%, lightblue 0%); /* 線の色 */
-  background-position: left bottom; /* 線の起点を左・下に設定 */
+  background-image: linear-gradient(transparent 60%, lightblue 0%);
+  background-position: left bottom;
   background-repeat: no-repeat;
-  background-size: 0 .3em; /* 線の横幅を0、縦幅を0.5emに */
-  padding-bottom: 1px; /* 下線を下にズラす */
+  background-size: 0 .3em;
+  padding-bottom: 1px;
+  background-size: 0% .3em;
+  animation: marker-animation 1s 0s 1 forwards;
+}
+@keyframes marker-animation {
+  100% {
+    background-size: 100% .3em;
+  }
 }
 .hero .summary{
   font-size: 24px;
 }
-.hero .summary_left-string{
-  position: absolute;
-  top:calc(50vh + 40px);
-  left: 10vw;
-  z-index: 10;
-  background-color: rgba(255, 255, 255, 0.8);
-}
-.hero .summary_right-string{
-  position: absolute;
-  top:calc(50vh + 40px);
-  right: 10vw;
-  z-index: 10;
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
 .hero .scroll-btn {
   position: absolute;
   display: flex;
@@ -114,12 +133,6 @@ body{
   animation: scroll-btn 1s ease-in-out alternate infinite;
   z-index: 10;
   background-color: rgba(255, 255, 255, 0.8);
-}
-.hero .scroll-btn.scroll-left{
-  left: calc(25vw - 16px);
-}
-.hero .scroll-btn.scroll-right{
-  right: calc(25vw - 16px);
 }
 .hero .scroll-btn svg {
   overflow: visible;
@@ -143,13 +156,13 @@ body{
   stroke-dasharray: 0px, 0px;
   animation: scroll-down 2s infinite linear;
 }
-.scroll-btn.top svg .ball {
-  animation: ball-move 1s infinite ease-in-out;
-}
-.scroll-btn svg .ball {
+.hero_content .scroll-btn svg .ball {
   animation: ball-move 1s infinite ease-in-out alternate;
 }
-.scroll-btn.bottom svg .ball {
+.hero_content:first-child .scroll-btn svg .ball {
+  animation: ball-move 1s infinite ease-in-out;
+}
+.hero_content:last-child .scroll-btn svg .ball {
   animation: ball-move 1s infinite ease-in-out reverse;
 }
 .scroll-btn .text{
@@ -354,37 +367,9 @@ body{
 .writing tbody th{
   color: #4d9bc1;
 }
-@media screen and (max-width: 787px){
-  .writing table{
-    text-align: left;
-  }
-  .writing thead{
-    display:none;
-  }
-  .writing tr{
-    background-color: unset;
-  }
-  .writing th, .writing td{
-    display: block;
-    border: 0;
-    border-bottom: 1px solid #4d9bc1;
-  }
-  .writing tbody th{
-    background: #4d9bc1;
-    color:#fff;
-    text-align: center;
-  }
-  .writing td::before{
-    content: attr(data-label);
-    background-color: #e6f1f6;
-    font-weight: bold;
-    display: inline-block;
-    width: 20%;
-    min-width: 4em;
-    text-align: center;
-    margin-right: 0.5em;
-    padding: 4px;
-  }
+.writing a{
+  inline-size: 150px;
+  overflow-wrap: break-word;
 }
 .photo .photo-list{
   position: relative;
@@ -410,14 +395,17 @@ body{
   display: none;
 }
 .portfolio{
-  display: flex;
-  flex-direction: row;
-  row-gap: 10px;
   margin-block-start: 20px;
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.8);
   overflow: auto;
   height: calc(100vh - 140px);
+}
+.portfolio-content{
+  display: flex;
+  flex-direction: row;
+  row-gap: 10px;
+
 }
 .portfolio::-webkit-scrollbar{
   display: none;
@@ -476,17 +464,6 @@ body{
 
 .pnWrapper > a:hover {
   opacity: 0.8;
-}
-
-/* Media Queries */
-@media(max-width: 540px) { 
-  .wrapper{
-      padding: 2rem 0 10rem; 
-  }
-  
-  .pnWrapper{
-      flex-wrap: wrap;
-  }
 }
 .contact{
   display: flex;
@@ -553,4 +530,70 @@ body{
 }
 .about a, .blog a, .photo a, .software a{
   color: blue;
+}
+
+@media screen and (max-width: 787px){
+  .header{
+    display: flex;
+    flex-direction: column;
+  }
+  .header h1{
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+  .breadcrumb {
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+  .writing .title h2{
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+  .writing table{
+    text-align: left;
+  }
+  .writing tr{
+    background-color: unset;
+  }
+  .writing th, .writing td{
+    border: 0;
+    border-bottom: 1px solid #4d9bc1;
+  }
+  .writing tbody th{
+    background: #4d9bc1;
+    color:#fff;
+    text-align: center;
+  }
+  .wrapper{
+      padding: 2rem 0 10rem; 
+  }
+  
+  .pnWrapper{
+      flex-wrap: wrap;
+  }
+  .pnWrapper > a{
+    padding: 1rem;
+  }
+  .portfolio-content{
+    flex-direction: column-reverse;
+  }
+  .portfolio-right img{
+    width: 100%;
+  }
+  .article-item{
+    flex-direction: column;
+    height: 100%;
+  }
+  .article-left, .article-right img{
+    width: 100%;
+  }
+  .article-item .bottom a{
+    padding: 1rem;
+  }
+  .article-item .bottom{
+    margin: 1rem 1rem 1.5rem auto;
+  }
 }

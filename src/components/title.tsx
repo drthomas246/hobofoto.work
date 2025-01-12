@@ -1,6 +1,16 @@
-import { gsap } from "gsap";
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { createRef, useEffect, useRef, useState, type RefObject } from "react";
 
+interface HeroComponentProps {
+  ref: React.RefObject<HTMLDivElement | null>;
+  h1?: boolean;
+  herf?: string;
+  languageTitle?: string;
+  title: string;
+  languageSummary?: string;
+  summary?: string;
+  image: string;
+}
 const Scroll = ({ className }: { className: string }) => {
   return (
     <div className={`scroll-btn ${className}`}>
@@ -42,15 +52,115 @@ const Scroll = ({ className }: { className: string }) => {
   );
 };
 
+const HeroComponent = ({
+  ref,
+  h1 = false,
+  herf = "",
+  languageTitle = "",
+  title,
+  languageSummary = "",
+  summary = "",
+  image,
+}: HeroComponentProps) => {
+  const [isAnimating, setIsAnimating] = useState(false);
+  // 各文字のアニメーション設定
+  const container = {
+    hidden: { opacity: 1 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1, // 各文字を0.1秒ずつずらしてアニメーション
+      },
+    },
+  };
+  const child = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
+  return (
+    <div className="hero_content" ref={ref}>
+      {h1 ? (
+        <div className="string">
+          <motion.h1
+            className="hero-title english hobofoto"
+            variants={container}
+            initial="hidden"
+            whileInView="visible"
+          >
+            {title.split("").map((char, index) => (
+              <motion.span key={index} variants={child}>
+                {char === " " ? "\u00A0" : char}
+              </motion.span>
+            ))}
+          </motion.h1>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.8, ease: "easeOut" }}
+            className="summary english"
+          >
+            HoBo every day FoTo.
+          </motion.div>
+        </div>
+      ) : (
+        <>
+          <div className="string">
+            <a href={herf}>
+              <motion.h2
+                className={`hero-title ${languageTitle} ${
+                  isAnimating ? "marker" : ""
+                }`}
+                variants={container}
+                initial="hidden"
+                whileInView="visible"
+                onAnimationStart={() => setIsAnimating(false)}
+                onAnimationComplete={() => setIsAnimating(true)}
+              >
+                {title.split("").map((char, index) => (
+                  <motion.span key={index} variants={child}>
+                    {char === " " ? "\u00A0" : char} {/* 空白を正しく扱う */}
+                  </motion.span>
+                ))}
+              </motion.h2>
+            </a>
+          </div>
+          <div className="summary-string">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1, duration: 0.8, ease: "easeOut" }}
+              className={`summary ${languageSummary}`}
+            >
+              {summary}
+            </motion.div>
+          </div>
+        </>
+      )}
+
+      <Scroll className="" />
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
+        className="hero-image"
+      >
+        <img src={image} alt="top" className="hero-image" />
+      </motion.div>
+    </div>
+  );
+};
+
 const Title = ({ images }: { images: any }) => {
-  // 注意：自分用なのでコードがめちゃくちゃ汚い
-  // ノート：いつかきれいに書き直したい(useEffect周りとか)
-  const hero1 = useRef<HTMLDivElement>(null);
-  const hero2 = useRef<HTMLDivElement>(null);
-  const hero3 = useRef<HTMLDivElement>(null);
-  const hero4 = useRef<HTMLDivElement>(null);
-  const hero5 = useRef<HTMLDivElement>(null);
+  const minimumDistance = 30;
+  const hero = useRef<RefObject<HTMLDivElement | null>[]>([]);
+  for (let index = 0; index < 5; index++) {
+    hero.current[index] = createRef<HTMLDivElement>();
+  }
   const [number, setNumber] = useState(0);
+  const startX = useRef(0);
+  const endX = useRef(0);
+  const startY = useRef(0);
+  const endY = useRef(0);
 
   const handleWheel = (event: any) => {
     if (event.deltaY > 0) {
@@ -63,187 +173,89 @@ const Title = ({ images }: { images: any }) => {
       }
     }
   };
-
-  useEffect(() => {
-    const jsText = document.querySelectorAll(".hero-title");
-    jsText.forEach((target) => {
-      let newText = "";
-      const text = target.textContent;
-      const result = text!.split("");
-      for (let i = 0; i < result.length; i++) {
-        newText += "<span>" + result[i] + "</span>";
+  const flickStart = (event: any) => {
+    event.preventDefault();
+    startX.current = event.touches[0].pageX;
+    startY.current = event.touches[0].pageY;
+  };
+  const flicking = (event: any) => {
+    event.preventDefault();
+    endX.current = event.touches[0].pageX;
+    endY.current = event.touches[0].pageY;
+  };
+  const flickEnd = (event: any) => {
+    const distanceX = Math.abs(endX.current - startX.current);
+    const distanceY = Math.abs(endY.current - startY.current);
+    if (distanceX < distanceY && distanceY > minimumDistance) {
+      if (distanceY < 0) {
+        if (number < 4) {
+          setNumber(number + 1);
+        }
+      } else {
+        if (number > 0) {
+          setNumber(number - 1);
+        }
       }
-      target.innerHTML = newText;
-    });
-  });
+    }
+  };
 
   useEffect(() => {
-    switch (number) {
-      case 0:
-        hero1.current!.style.display = "block";
-        hero2.current!.style.display = "none";
-        hero3.current!.style.display = "none";
-        hero4.current!.style.display = "none";
-        hero5.current!.style.display = "none";
-        break;
-      case 1:
-        hero1.current!.style.display = "none";
-        hero2.current!.style.display = "block";
-        hero3.current!.style.display = "none";
-        hero4.current!.style.display = "none";
-        hero5.current!.style.display = "none";
-        break;
-      case 2:
-        hero1.current!.style.display = "none";
-        hero2.current!.style.display = "none";
-        hero3.current!.style.display = "block";
-        hero4.current!.style.display = "none";
-        hero5.current!.style.display = "none";
-        break;
-      case 3:
-        hero1.current!.style.display = "none";
-        hero2.current!.style.display = "none";
-        hero3.current!.style.display = "none";
-        hero4.current!.style.display = "block";
-        hero5.current!.style.display = "none";
-        break;
-      case 4:
-        hero1.current!.style.display = "none";
-        hero2.current!.style.display = "none";
-        hero3.current!.style.display = "none";
-        hero4.current!.style.display = "none";
-        hero5.current!.style.display = "block";
-        break;
+    for (let index = 0; index < 5; index++) {
+      hero.current[index].current!.style.display = "none";
     }
-    gsap.set(".hero-title span", {
-      opacity: 0,
-      y: 100,
-    });
-    gsap.set(".marker", {
-      backgroundSize: "0 .3em",
-    });
-    gsap.set(".hero-image", {
-      opacity: 0,
-    });
-    gsap.set(".scroll-btn", {
-      opacity: 0,
-    });
-    gsap.set(".summary", {
-      opacity: 0,
-      y: 30,
-    });
-    gsap
-      .timeline()
-      .to(".hero-image", {
-        opacity: 1,
-      })
-      .to(
-        ".hero-title span",
-        {
-          opacity: 1,
-          y: 0,
-          stagger: {
-            amount: 1,
-            from: "start",
-            ease: "sine.in",
-          },
-        },
-        "=0.1"
-      )
-      .to(
-        ".marker",
-        {
-          backgroundSize: "100% .3em",
-        },
-        "-=0.2"
-      )
-      .to(
-        ".summary",
-        {
-          opacity: 1,
-          y: 0,
-        },
-        "-=0.2"
-      )
-      .to(
-        ".scroll-btn",
-        {
-          opacity: 1,
-        },
-        "-=0.2"
-      );
+    hero.current[number].current!.style.display = "block";
   }, [number]);
 
   return (
-    <div className="hero" onWheel={handleWheel}>
-      <div className="hero_1" ref={hero1}>
-        <div className="hero-left left-string">
-          <h1 className="hero-title english hobofoto">HoBoFoTo.work</h1>
-          <div className="summary english">HoBo every day FoTo.</div>
-        </div>
-        <Scroll className="scroll-left top" />
-        <div className="hero-right">
-          <img src={images[0].src} alt="top" className="hero-image" />
-        </div>
-      </div>
-      <div className="hero_2" ref={hero2}>
-        <div className="hero-right right-string">
-          <a href="/blog">
-            <h2 className="hero-title japanese marker">ブログ</h2>
-          </a>
-        </div>
-        <div className="summary_right-string">
-          <div className="summary japanese">
-            技術的なことから日々のことまで
-          </div>
-        </div>
-        <Scroll className="scroll-right" />
-        <div className="hero-left">
-          <img src={images[1].src} alt="top" className="hero-image" />
-        </div>
-      </div>
-      <div className="hero_3" ref={hero3}>
-        <div className="hero-left left-string">
-          <a href="/photo">
-            <h2 className="hero-title japanese marker">フォト</h2>
-          </a>
-        </div>
-        <div className="summary_left-string">
-          <div className="summary japanese">四季折々の写真達</div>
-        </div>
-        <Scroll className="scroll-left" />
-        <div className="hero-right">
-          <img src={images[2].src} alt="top" className="hero-image" />
-        </div>
-      </div>
-      <div className="hero_4" ref={hero4}>
-        <div className="hero-right right-string">
-          <a href="/software">
-            <h2 className="hero-title japanese marker">ソフトウェア</h2>
-          </a>
-        </div>
-        <div className="summary_right-string">
-          <div className="summary japanese">自作ソフトウェアなど</div>
-        </div>
-        <Scroll className="scroll-right" />
-        <div className="hero-left">
-          <img src={images[3].src} alt="top" className="hero-image" />
-        </div>
-      </div>
-      <div className="hero_5" ref={hero5}>
-        <div className="hero-left left-string">
-          <a href="/aboutme">
-            <h2 className="hero-title english marker">About&nbsp;me</h2>
-          </a>
-        </div>
-        <div className="summary_left-string">
-          <div className="summary japanese">ポートフォリオや連絡先など</div>
-        </div>
-        <Scroll className="scroll-left bottom" />
-        <div className="hero-right">
-          <img src={images[4].src} alt="top" className="hero-image" />
-        </div>
-      </div>
+    <div
+      className="hero"
+      onWheel={handleWheel}
+      onTouchStart={flickStart}
+      onTouchMove={flicking}
+      onTouchEnd={flickEnd}
+    >
+      <HeroComponent
+        ref={hero.current[0]}
+        h1={true}
+        title="HoBoFoTo.work"
+        image={images[0].src}
+      />
+      <HeroComponent
+        ref={hero.current[1]}
+        herf="/blog"
+        languageTitle="japanese"
+        title="ブログ"
+        languageSummary="japanese"
+        summary="技術的なことから日々のことまで"
+        image={images[1].src}
+      />
+      <HeroComponent
+        ref={hero.current[2]}
+        herf="/photo"
+        languageTitle="japanese"
+        title="フォト"
+        languageSummary="japanese"
+        summary="四季折々の写真達"
+        image={images[2].src}
+      />
+      <HeroComponent
+        ref={hero.current[3]}
+        herf="/software"
+        languageTitle="japanese"
+        title="ソフトウェア"
+        languageSummary="japanese"
+        summary="自作ソフトウェアなど"
+        image={images[3].src}
+      />
+      <HeroComponent
+        ref={hero.current[4]}
+        herf="/aboutme"
+        languageTitle="english"
+        title="About me"
+        languageSummary="japanese"
+        summary="ポートフォリオや連絡先など"
+        image={images[4].src}
+      />
     </div>
   );
 };
