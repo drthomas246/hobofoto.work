@@ -5,7 +5,7 @@ import { useSwipeable } from "react-swipeable";
 interface HeroComponentProps {
   ref: React.RefObject<HTMLDivElement | null>;
   h1?: boolean;
-  herf?: string;
+  href?: string;
   languageTitle?: string;
   title: string;
   languageSummary?: string;
@@ -56,7 +56,7 @@ const Scroll = ({ className }: { className: string }) => {
 const HeroComponent = ({
   ref,
   h1 = false,
-  herf = "",
+  href = "",
   languageTitle = "",
   title,
   languageSummary = "",
@@ -106,7 +106,7 @@ const HeroComponent = ({
       ) : (
         <>
           <div className="string">
-            <a href={herf}>
+            <a href={href}>
               <motion.h2
                 className={`hero-title ${languageTitle} ${
                   isAnimating ? "marker" : ""
@@ -203,7 +203,7 @@ const Title = ({ images }: { images: any }) => {
       />
       <HeroComponent
         ref={hero.current[1]}
-        herf="/blog"
+        href="/blog"
         languageTitle="japanese"
         title="ブログ"
         languageSummary="japanese"
@@ -212,7 +212,7 @@ const Title = ({ images }: { images: any }) => {
       />
       <HeroComponent
         ref={hero.current[2]}
-        herf="/photo"
+        href="/photo"
         languageTitle="japanese"
         title="フォト"
         languageSummary="japanese"
@@ -221,7 +221,7 @@ const Title = ({ images }: { images: any }) => {
       />
       <HeroComponent
         ref={hero.current[3]}
-        herf="/software"
+        href="/software"
         languageTitle="japanese"
         title="ソフトウェア"
         languageSummary="japanese"
@@ -230,7 +230,7 @@ const Title = ({ images }: { images: any }) => {
       />
       <HeroComponent
         ref={hero.current[4]}
-        herf="/aboutme"
+        href="/aboutme"
         languageTitle="english"
         title="About me"
         languageSummary="japanese"

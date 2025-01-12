@@ -532,10 +532,14 @@ body{
   color: blue;
 }
 
-@media screen and (max-width: 787px){
+@media screen and (max-width: 900px){
+  .container{
+    width: 90%;
+  }
   .header{
     display: flex;
     flex-direction: column;
+    height: 100%;
   }
   .header h1{
     position: relative;
@@ -546,6 +550,13 @@ body{
     position: relative;
     top: 0;
     left: 0;
+  }
+  .blog .article, .software .article, .about .article{
+    width: 100%;
+    margin: 0;
+  }
+  .writing, .contact{
+    margin-block-start: 0;
   }
   .writing .title h2{
     position: relative;
@@ -573,9 +584,13 @@ body{
   
   .pnWrapper{
       flex-wrap: wrap;
+      margin-top: 2rem;
   }
   .pnWrapper > a{
     padding: 1rem;
+  }
+  .photo .photo-list{
+    padding: 0 0 10px 0;
   }
   .portfolio-content{
     flex-direction: column-reverse;
@@ -595,5 +610,11 @@ body{
   }
   .article-item .bottom{
     margin: 1rem 1rem 1.5rem auto;
+  }
+  .skill{
+    flex-direction: column;
+  }
+  .portfolio-left, .skill-left, .skill-right{
+    width: 100%;
   }
 }

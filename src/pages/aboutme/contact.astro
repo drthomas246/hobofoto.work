@@ -1,42 +1,16 @@
 ---
-import { Image } from "astro:assets";
 import ContactForm from "../../components/ContactForm.jsx";
-import House from "../../images/house.svg";
-import Layout from "../../layouts/layout.astro";
+import Layout from "../../layouts/aboutme.astro";
 ---
 
-<Layout title="About me" description="HoBoFoTo.work Portfolio site">
-  <div class="about">
-    <div class="container">
-      <div class="header">
-        <h1 class="english">About me</h1>
-        <nav class="breadcrumb">
-          <ol>
-            <li class="japanese">
-              <a href="/" class="home">
-                <!-- house.svg © Fonticons, Inc. -->
-                <Image
-                  src={House}
-                  alt="home"
-                  width={20}
-                  height={20}
-                  class="house"
-                />
-                <span>ホーム</span>
-              </a>
-            </li>
-            <li class="english"><a href="/aboutme">About me</a></li>
-            <li class="japanese">問い合わせフォーム</li>
-          </ol>
-        </nav>
-      </div>
-      <div class="article">
-        <div class="contact">
-          <h1 class="japanese2">問い合わせフォーム</h1>
-          <p>下記フォームからお気軽にお問い合わせください</p>
-          <ContactForm client:load />
-        </div>
-      </div>
-    </div>
+<Layout
+  title="Contact"
+  description="HoBoFoTo.work Contact"
+  about="問い合わせフォーム"
+>
+  <div class="contact">
+    <h1 class="japanese2">問い合わせフォーム</h1>
+    <p>下記フォームからお気軽にお問い合わせください</p>
+    <ContactForm client:load />
   </div>
 </Layout>

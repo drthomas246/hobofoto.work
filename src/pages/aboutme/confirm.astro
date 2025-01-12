@@ -1,43 +1,17 @@
 ---
-import { Image } from "astro:assets";
 import Confirms from "../../components/Confirm.jsx";
-import House from "../../images/house.svg";
-import Layout from "../../layouts/layout.astro";
+import Layout from "../../layouts/aboutme.astro";
 ---
 
-<Layout title="About me" description="HoBoFoTo.work Portfolio site">
-  <div class="about">
-    <div class="container">
-      <div class="header">
-        <h1 class="english">About me</h1>
-        <nav class="breadcrumb">
-          <ol>
-            <li class="japanese">
-              <a href="/" class="home">
-                <!-- house.svg © Fonticons, Inc. -->
-                <Image
-                  src={House}
-                  alt="home"
-                  width={20}
-                  height={20}
-                  class="house"
-                />
-                <span>ホーム</span>
-              </a>
-            </li>
-            <li class="english"><a href="/aboutme">About me</a></li>
-            <li class="japanese">問い合わせフォーム</li>
-          </ol>
-        </nav>
-      </div>
-      <div class="article">
-        <div class="contact">
-          <h1 class="japanese2">内容確認</h1>
-          <p>下記の内容でよろしいですか</p>
-          <Confirms client:load />
-        </div>
-      </div>
-    </div>
+<Layout
+  title="Contact confirm"
+  description="HoBoFoTo.work Portfolio Contact confirm"
+  about="問い合わせフォーム確認"
+>
+  <div class="contact">
+    <h1 class="japanese2">内容確認</h1>
+    <p>下記の内容でよろしいですか</p>
+    <Confirms client:load />
   </div>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </Layout>
