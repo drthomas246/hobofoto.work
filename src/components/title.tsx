@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { createRef, useEffect, useRef, useState, type RefObject } from "react";
+import { useSwipeable } from "react-swipeable";
 
 interface HeroComponentProps {
   ref: React.RefObject<HTMLDivElement | null>;
@@ -151,16 +152,28 @@ const HeroComponent = ({
 };
 
 const Title = ({ images }: { images: any }) => {
-  const minimumDistance = 30;
   const hero = useRef<RefObject<HTMLDivElement | null>[]>([]);
   for (let index = 0; index < 5; index++) {
     hero.current[index] = createRef<HTMLDivElement>();
   }
   const [number, setNumber] = useState(0);
-  const startX = useRef(0);
-  const endX = useRef(0);
-  const startY = useRef(0);
-  const endY = useRef(0);
+
+  const handlers = useSwipeable({
+    onSwiped: (event) => {
+      console.log(event);
+      if (event.dir == "Up") {
+        if (number < 4) {
+          setNumber(number + 1);
+        }
+      }
+      if (event.dir == "Down") {
+        if (number > 0) {
+          setNumber(number - 1);
+        }
+      }
+    },
+    trackMouse: true, //マウス操作でのスワイプを許可する場合はtrue
+  });
 
   const handleWheel = (event: any) => {
     if (event.deltaY > 0) {
@@ -173,31 +186,6 @@ const Title = ({ images }: { images: any }) => {
       }
     }
   };
-  const flickStart = (event: any) => {
-    event.preventDefault();
-    startX.current = event.touches[0].pageX;
-    startY.current = event.touches[0].pageY;
-  };
-  const flicking = (event: any) => {
-    event.preventDefault();
-    endX.current = event.touches[0].pageX;
-    endY.current = event.touches[0].pageY;
-  };
-  const flickEnd = (event: any) => {
-    const distanceX = Math.abs(endX.current - startX.current);
-    const distanceY = Math.abs(endY.current - startY.current);
-    if (distanceX < distanceY && distanceY > minimumDistance) {
-      if (distanceY < 0) {
-        if (number < 4) {
-          setNumber(number + 1);
-        }
-      } else {
-        if (number > 0) {
-          setNumber(number - 1);
-        }
-      }
-    }
-  };
 
   useEffect(() => {
     for (let index = 0; index < 5; index++) {
@@ -205,18 +193,8 @@ const Title = ({ images }: { images: any }) => {
     }
     hero.current[number].current!.style.display = "block";
   }, [number]);
-  useEffect(() => {
-    window.addEventListener("touchstart", flickStart);
-    window.addEventListener("touchmove", flicking);
-    window.addEventListener("touchend", flickEnd);
-    return () => {
-      window.removeEventListener("touchstart", flickStart);
-      window.removeEventListener("touchmove", flicking);
-      window.removeEventListener("touchend", flickEnd);
-    };
-  }, []);
   return (
-    <div className="hero" onWheel={handleWheel}>
+    <div className="hero" onWheel={handleWheel} {...handlers}>
       <HeroComponent
         ref={hero.current[0]}
         h1={true}
