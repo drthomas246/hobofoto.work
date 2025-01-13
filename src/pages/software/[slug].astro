@@ -55,8 +55,9 @@ const { Content } = await entry!.render();
 
 <Layout
   title={Astro.props.singleSoftware.data.title}
-  description="Yamahara Yoshihiro's software"
-  blog={Astro.props.singleSoftware.data.title}
+  description={Astro.props.singleSoftware.data.excerpt}
+  software={Astro.props.singleSoftware.data.title}
+  canonical={`/${Astro.props.singleSoftware.slug}`}
 >
   <div class="writing">
     <div class="title">

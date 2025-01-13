@@ -2,9 +2,11 @@
 import { Image } from "astro:assets";
 import House from "../images/house.svg";
 import Layout from "./layout.astro";
+
+console.log(Astro.props.canonical)
 ---
 
-<Layout title={Astro.props.title} description={Astro.props.description}>
+<Layout title={Astro.props.title} description={Astro.props.description} canonical={Astro.props.canonical ? `/aboutme${Astro.props.canonical}`: "/aboutme"}>
   <div class="about">
     <div class="container">
       <div class="header">
@@ -25,7 +27,7 @@ import Layout from "./layout.astro";
               </a>
             </li>
             {Astro.props.about ? (
-              <li class="english"><a href="/software">About me</a></li>
+              <li class="english"><a href="/aboutme">About me</a></li>
               <li class="japanese">{Astro.props.about}</li>
             ):(
               <li class="english">About me</li>

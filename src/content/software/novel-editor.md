@@ -1,7 +1,7 @@
 ---
 title: "Novel Editor"
 date: "2019-07-18"
-excerpt: "Novel Editor"
+excerpt: "Python で作った、「小説家になろう」の投稿用エディターです。「キャラクター」、「職種」、「場所」、「イベント」、「イメージ」、「小説」をわけて管理することで小説を少しでも楽にかけるようにしてあります。"
 image: "/software/novel-editor.webp"
 ---
 

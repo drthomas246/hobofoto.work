@@ -4,7 +4,7 @@ import House from "../images/house.svg";
 import Layout from "./layout.astro";
 ---
 
-<Layout title={Astro.props.title} description={Astro.props.description}>
+<Layout title={Astro.props.title} description={Astro.props.description} canonical={Astro.props.canonical ? `/blog${Astro.props.canonical}`: "/blog"}>
   <div class="blog">
     <div class="container">
       <div class="header">

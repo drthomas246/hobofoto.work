@@ -4,7 +4,7 @@ import House from "../images/house.svg";
 import Layout from "./layout.astro";
 ---
 
-<Layout title={Astro.props.title} description={Astro.props.description}>
+<Layout title={Astro.props.title} description={Astro.props.description} canonical={Astro.props.canonical ? `/software${Astro.props.canonical}`: "/software"}>
   <div class="software">
     <div class="container">
       <div class="header">
@@ -24,9 +24,9 @@ import Layout from "./layout.astro";
                 <span>ホーム</span>
               </a>
             </li>
-            {Astro.props.blog ? (
+            {Astro.props.software ? (
               <li class="japanese"><a href="/software">ソフトウエア</a></li>
-              <li class="japanese">{Astro.props.blog}</li>
+              <li class="japanese">{Astro.props.software}</li>
             ):(
               <li class="japanese">ソフトウェア</li>
             )}

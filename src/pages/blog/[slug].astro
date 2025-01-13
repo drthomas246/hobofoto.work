@@ -43,7 +43,12 @@ const next = await getBlogs("blogs", {
 });
 ---
 
-<Layout title={blog.title} description="HoBoFoTo.work Blog" blog={blog.title}>
+<Layout
+  title={blog.title}
+  description={blog.metadescription}
+  blog={blog.title}
+  canonical={`/${slug}`}
+>
   <div class="writing">
     <div class="title">
       <h2 class="japanese">{blog.title}</h2>
