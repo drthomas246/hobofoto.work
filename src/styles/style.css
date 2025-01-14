@@ -223,11 +223,19 @@ body{
 .about{
   background-image: url("/about.webp");
 }
-.blog,.software,.photo, .about{
+.math{
+  background-image: url("/math.webp");
+}
+.blog, .software, .photo, .about, .math{
   height: 100vh;
   background-attachment: fixed;
   background-size: cover;
   background-repeat: no-repeat;
+}
+.math .etc{
+  display: flex;
+  flex-direction: row;
+  column-gap: 1.5rem;
 }
 .container{
   width: 80vw;
@@ -249,7 +257,7 @@ body{
   height: calc(100vh - 120px);
   overflow: auto;
 }
-.blog .article, .software .article, .about .article{
+.blog .article, .software .article, .about .article, .math .article{
   width: calc(80vw - 100px);
   margin: 0 auto;
 }
@@ -370,6 +378,18 @@ body{
 .writing a{
   inline-size: 150px;
   overflow-wrap: break-word;
+}
+.writing math{
+  font-size:16px;
+  padding: 5px 0;
+}
+.writing math.tml-display{
+  margin: 10px 0;
+}
+.writing math mtext{
+  font-family: mamelon, sans-serif;
+  font-weight: 200;
+  font-style: normal;
 }
 .photo .photo-list{
   position: relative;
@@ -532,7 +552,7 @@ body{
 .contact button:focus {
   outline: none;
 }
-.about a, .blog a, .photo a, .software a{
+.about a, .blog a, .photo a, .software a, .math a{
   color: blue;
 }
 

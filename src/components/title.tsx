@@ -153,7 +153,7 @@ const HeroComponent = ({
 
 const Title = ({ images }: { images: any }) => {
   const hero = useRef<RefObject<HTMLDivElement | null>[]>([]);
-  for (let index = 0; index < 5; index++) {
+  for (let index = 0; index < 6; index++) {
     hero.current[index] = createRef<HTMLDivElement>();
   }
   const [number, setNumber] = useState(0);
@@ -162,7 +162,7 @@ const Title = ({ images }: { images: any }) => {
     onSwiped: (event) => {
       console.log(event);
       if (event.dir == "Up") {
-        if (number < 4) {
+        if (number < 5) {
           setNumber(number + 1);
         }
       }
@@ -177,7 +177,7 @@ const Title = ({ images }: { images: any }) => {
 
   const handleWheel = (event: any) => {
     if (event.deltaY > 0) {
-      if (number < 4) {
+      if (number < 5) {
         setNumber(number + 1);
       }
     } else {
@@ -188,7 +188,7 @@ const Title = ({ images }: { images: any }) => {
   };
 
   useEffect(() => {
-    for (let index = 0; index < 5; index++) {
+    for (let index = 0; index < 6; index++) {
       hero.current[index].current!.style.display = "none";
     }
     hero.current[number].current!.style.display = "block";
@@ -230,12 +230,21 @@ const Title = ({ images }: { images: any }) => {
       />
       <HeroComponent
         ref={hero.current[4]}
+        href="/math"
+        languageTitle="japanese"
+        title="数学"
+        languageSummary="japanese"
+        summary="中学数学をできるだけていねいに"
+        image={images[4].src}
+      />
+      <HeroComponent
+        ref={hero.current[5]}
         href="/aboutme"
         languageTitle="english"
         title="About me"
         languageSummary="japanese"
         summary="ポートフォリオや連絡先など"
-        image={images[4].src}
+        image={images[5].src}
       />
     </div>
   );

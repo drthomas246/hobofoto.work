@@ -1,11 +1,19 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
-
 import react from '@astrojs/react';
+import rehypeMathML from '@daiji256/rehype-mathml';
+import { defineConfig } from 'astro/config';
+import remarkDirective from "remark-directive";
+import remarkMath from 'remark-math';
 
 import sitemap from "./integrations/sitemap";
+import remarkRubyDirective from "./src/plugins/remarkRuby";
+import remarkRubyStringDirective from "./src/plugins/remarkRubyString";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), sitemap()]
+  integrations: [react(), sitemap()],
+  markdown: {
+    remarkPlugins: [remarkMath, remarkDirective, remarkRubyStringDirective, remarkRubyDirective],
+    rehypePlugins: [rehypeMathML],
+  }
 });

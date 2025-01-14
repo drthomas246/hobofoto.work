@@ -1,0 +1,53 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/math.astro";
+
+const response = await getCollection("math");
+// 日付順に並び替え
+const orderedMath = response.sort((a: any, b: any): number => {
+  const dayA: any = new Date(a.data.date);
+  const dayB: any = new Date(b.data.date);
+  const diffMilliSec = dayB - dayA;
+  return diffMilliSec;
+});
+---
+
+<Layout title="maths" description="Yamahara Yoshihiro's Maths site">
+  <ul class="article-list">
+    {
+      orderedMath.map((singleMath: any) => (
+        <li class="article-item">
+          <div class="article-left">
+            <a href={"/math/" + singleMath.slug}>
+              <h2 class="japanese">{singleMath.data.title}</h2>
+            </a>
+            <div class="date japanese2 etc">
+              <span>
+                {new Date(singleMath.data.date).toLocaleDateString("ja-JP", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </span>
+              <span>履修学年:{singleMath.data.grad}年</span>
+              <span>単元:{singleMath.data.field}</span>
+            </div>
+            <div class="summary japanese2">{singleMath.data.excerpt}</div>
+            <div class="bottom">
+              <a href={"/math/" + singleMath.slug}>続きを読む</a>
+            </div>
+          </div>
+          <div class="article-right">
+            <Image
+              src={singleMath.data.image}
+              alt="math-image"
+              width="1200"
+              height="400"
+            />
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>

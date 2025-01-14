@@ -6,14 +6,19 @@ import Top_2 from "../images/top_2.png";
 import Top_3 from "../images/top_3.png";
 import Top_4 from "../images/top_4.png";
 import Top_5 from "../images/top_5.png";
+import Top_6 from "../images/top_6.png";
 import Layout from "../layouts/layout.astro";
 const image_1 = await getImage({ src: Top_1, format: "webp" });
 const image_2 = await getImage({ src: Top_2, format: "webp" });
 const image_3 = await getImage({ src: Top_3, format: "webp" });
 const image_4 = await getImage({ src: Top_4, format: "webp" });
 const image_5 = await getImage({ src: Top_5, format: "webp" });
+const image_6 = await getImage({ src: Top_6, format: "webp" });
 ---
 
 <Layout title="" description="HoBoFoTo.work site">
-  <Title images={[image_1, image_2, image_3, image_4, image_5]} client:load />
+  <Title
+    images={[image_1, image_2, image_3, image_4, image_5, image_6]}
+    client:load
+  />
 </Layout>

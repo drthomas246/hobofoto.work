@@ -1,0 +1,94 @@
+---
+import { Image } from "astro:assets";
+import { getCollection, getEntry } from "astro:content";
+import "highlight.js/styles/github-dark.css";
+import PrevNext from "../../components/PrevNext.astro";
+import Layout from "../../layouts/math.astro";
+
+export interface Props {
+  singleMath: any;
+}
+
+export async function getStaticPaths() {
+  // すべてのソフトウェアを取得
+  const allMath = await getCollection("math");
+  // ソフトウエアパスの設定
+  const pathsData = allMath.map((singleMath: any) => ({
+    params: {
+      slug: singleMath.slug,
+    },
+    props: {
+      singleMath: singleMath,
+    },
+  }));
+  return pathsData;
+}
+
+// prevの取得
+const allMath = await getCollection("math");
+const nowMath = new Date(Astro.props.singleMath.data.date);
+let orderedMath = allMath.sort((a: any, b: any): number => {
+  const dayA: any = new Date(a.data.date);
+  const dayB: any = new Date(b.data.date);
+  const diffMilliSec = dayB - dayA;
+  return diffMilliSec;
+});
+const prev = orderedMath.filter((math: any) => {
+  const date = new Date(math.data.date);
+  return date < nowMath;
+});
+// nextの取得
+orderedMath = allMath.sort((a: any, b: any): number => {
+  const dayA: any = new Date(a.data.date);
+  const dayB: any = new Date(b.data.date);
+  const diffMilliSec = dayA - dayB;
+  return diffMilliSec;
+});
+const next = orderedMath.filter((math: any) => {
+  const date = new Date(math.data.date);
+  return date > nowMath;
+});
+// 本文をhtmlに
+const entry = await getEntry("math", Astro.props.singleMath.slug);
+const { Content } = await entry!.render();
+---
+
+<Layout
+  title={Astro.props.singleMath.data.title}
+  description={Astro.props.singleMath.data.excerpt}
+  math={Astro.props.singleMath.data.title}
+  canonical={`/${Astro.props.singleMath.slug}`}
+  image={Astro.props.singleMath.data.image}
+>
+  <div class="writing">
+    <div class="title">
+      <h2 class="japanese">{Astro.props.singleMath.data.title}</h2>
+      <Image
+        src={Astro.props.singleMath.data.image}
+        alt="image"
+        width={1200}
+        height={400}
+      />
+    </div>
+    <p class="japanese etc">
+      <span>
+        {
+          new Date(Astro.props.singleMath.data.date).toLocaleDateString(
+            "ja-JP",
+            {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }
+          )
+        }
+      </span>
+      <span>履修学年:{Astro.props.singleMath.data.grad}年</span>
+      <span>単元:{Astro.props.singleMath.data.field}</span>
+    </p>
+    <div class="japanese2">
+      <Content />
+    </div>
+    <PrevNext directoryPath="math" prev={prev} next={next} />
+  </div>
+</Layout>

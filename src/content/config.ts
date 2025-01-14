@@ -9,4 +9,15 @@ const software = defineCollection({
   })
 })
 
-export const collections = {software}
+const math = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    date: z.string(),
+    excerpt: z.string(),
+    image: z.string(),
+    grad: z.number(),
+    field: z.string(),
+  })
+})
+
+export const collections = {software, math}

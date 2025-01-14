@@ -1,0 +1,46 @@
+---
+import { Image } from "astro:assets";
+import House from "../images/house.svg";
+import Layout from "./layout.astro";
+---
+
+<Layout
+  title={Astro.props.title}
+  description={Astro.props.description}
+  canonical={Astro.props.canonical ? `/math${Astro.props.canonical}`: "/math"}
+  image={Astro.props.image}
+>
+  <div class="math">
+    <div class="container">
+      <div class="header">
+        <h1 class="japanese">数学</h1>
+        <nav class="breadcrumb">
+          <ol>
+            <li class="japanese">
+              <a href="/" class="home">
+                <!-- house.svg © Fonticons, Inc. -->
+                <Image
+                  src={House}
+                  alt="home"
+                  width={20}
+                  height={20}
+                  class="house"
+                />
+                <span>ホーム</span>
+              </a>
+            </li>
+            {Astro.props.math ? (
+              <li class="japanese"><a href="/math">数学</a></li>
+              <li class="japanese">{Astro.props.math}</li>
+            ):(
+              <li class="japanese">数学</li>
+            )}
+          </ol>
+        </nav>
+      </div>
+      <div class="article">
+        <slot />
+      </div>
+    </div>
+  </div>
+</Layout>
