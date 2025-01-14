@@ -1,7 +1,14 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import { getImage } from "astro:assets";
+import Site from "../images/site.webp";
 import "../styles/reset.css";
 import "../styles/style.css";
+const image = await getImage({
+  src: Site,
+  width: 756,
+  height: 776,
+});
 ---
 
 <html lang="ja">
@@ -10,7 +17,41 @@ import "../styles/style.css";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <meta
+      name="title"
+      content={`HoBoFoTo.work${Astro.props.title ? ` - ${Astro.props.title}` : ""}`}
+    />
     <meta name="description" content={Astro.props.description} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content={Astro.props.canonical
+        ? `https://www.hobofoto.work${Astro.props.canonical}`
+        : "https://www.hobofoto.work"}
+    />
+    <meta
+      property="og:title"
+      content={`HoBoFoTo.work${Astro.props.title ? ` - ${Astro.props.title}` : ""}`}
+    />
+    <meta property="og:description" content={Astro.props.description} />
+    <meta property="og:image" content={image.src} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content={Astro.props.canonical
+        ? `https://www.hobofoto.work${Astro.props.canonical}`
+        : "https://www.hobofoto.work"}
+    />
+    <meta
+      property="twitter:title"
+      content={`HoBoFoTo.work${Astro.props.title ? ` - ${Astro.props.title}` : ""}`}
+    />
+    <meta property="twitter:description" content={Astro.props.description} />
+    <meta property="twitter:image" content={image.src} />
     <link
       rel="canonical"
       href={Astro.props.canonical
