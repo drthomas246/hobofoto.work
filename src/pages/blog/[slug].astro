@@ -48,6 +48,7 @@ const next = await getBlogs("blogs", {
   description={blog.metadescription}
   blog={blog.title}
   canonical={`/${slug}`}
+  image={blog.eyecatch.url}
 >
   <div class="writing">
     <div class="title">

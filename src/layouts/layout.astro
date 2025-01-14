@@ -36,7 +36,10 @@ const image = await getImage({
       content={`HoBoFoTo.work${Astro.props.title ? ` - ${Astro.props.title}` : ""}`}
     />
     <meta property="og:description" content={Astro.props.description} />
-    <meta property="og:image" content={image.src} />
+    <meta
+      property="og:image"
+      content={Astro.props.image ? Astro.props.image : image.src}
+    />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -51,7 +54,10 @@ const image = await getImage({
       content={`HoBoFoTo.work${Astro.props.title ? ` - ${Astro.props.title}` : ""}`}
     />
     <meta property="twitter:description" content={Astro.props.description} />
-    <meta property="twitter:image" content={image.src} />
+    <meta
+      property="twitter:image"
+      content={Astro.props.image ? Astro.props.image : image.src}
+    />
     <link
       rel="canonical"
       href={Astro.props.canonical
