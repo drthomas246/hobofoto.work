@@ -10,6 +10,8 @@ field: "数と式"
 ### 加法
 
 中学校では足し算のことを:rubyString[加法（かほう）]といいます。そしてその足した答えを:rubyString[和（わ）]といいます。
+:talkingLeft[なんでなのかな]
+:talkingRight[わからんな]
 
 ### 絶対値
 
@@ -46,4 +48,4 @@ $$
 
 数直線で考えるとわかりやすいかもしれません。
 
-<iframe src="https://player.vimeo.com/video/263143459?title=0&byline=0&portrait=0" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+https://player.vimeo.com/video/263143459?title=0&byline=0&portrait=0

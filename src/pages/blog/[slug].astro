@@ -1,8 +1,10 @@
 ---
+import { transformerNotationDiff } from "@shikijs/transformers";
 import { Image } from "astro:assets";
 import { load } from "cheerio";
 import hljs from "highlight.js";
 import "highlight.js/styles/github-dark.css";
+import { codeToHtml } from "shiki";
 import PrevNext from "../../components/PrevNextBlog.astro";
 import Layout from "../../layouts/blog.astro";
 import { getBlogDetail, getBlogs } from "../../libs/microcms";
@@ -13,11 +15,10 @@ export async function getStaticPaths() {
     params: { slug: blog.id },
   }));
 }
-
 const { slug } = Astro.params;
 const blog = await getBlogDetail("blogs", slug);
 let contents = "";
-blog.content.forEach((content: any) => {
+for (const content of blog.content) {
   if (content.fieldId === "html") {
     contents += content.html;
   }
@@ -30,7 +31,19 @@ blog.content.forEach((content: any) => {
     });
     contents += $.html();
   }
-});
+  if (content.fieldId === "code") {
+    const { code, script } = content;
+    const html = await codeToHtml(code, {
+      lang: script,
+      theme: "tokyo-night",
+      transformers: [transformerNotationDiff()],
+      colorReplacements: {
+        "#51597d": "#8f91a5",
+      },
+    });
+    contents += html;
+  }
+}
 const prev = await getBlogs("blogs", {
   limit: 1,
   orders: "-publishedAt",
