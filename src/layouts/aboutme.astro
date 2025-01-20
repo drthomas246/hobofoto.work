@@ -2,8 +2,6 @@
 import { Image } from "astro:assets";
 import House from "../images/house.svg";
 import Layout from "./layout.astro";
-
-console.log(Astro.props.canonical)
 ---
 
 <Layout title={Astro.props.title} description={Astro.props.description} canonical={Astro.props.canonical ? `/aboutme${Astro.props.canonical}`: "/aboutme"}>

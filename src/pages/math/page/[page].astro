@@ -1,0 +1,72 @@
+---
+import type { GetStaticPathsOptions } from "astro";
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import PrevNext from "../../../components/PrevNextMath.astro";
+import Layout from "../../../layouts/math.astro";
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+  const response = await getCollection("math");
+  // 日付順に並び替え
+  const orderedMath = response.sort((a: any, b: any): number => {
+    const dayA: any = new Date(a.data.date);
+    const dayB: any = new Date(b.data.date);
+    const diffMillisecond = dayB - dayA;
+    return diffMillisecond;
+  });
+
+  const pathsData = orderedMath.map((singleMath) => ({
+    params: {
+      slug: singleMath.slug,
+    },
+    props: {
+      singleMath: singleMath,
+    },
+  }));
+  return paginate(pathsData, { pageSize: 3 });
+}
+---
+
+<Layout title="maths" description="Yamahara Yoshihiro's Maths site">
+  <ul class="article-list">
+    {
+      Astro.props.page.data.map((singleMath: any) => (
+        <li class="article-item">
+          <div class="article-left">
+            <a href={"/math/" + singleMath.params.slug}>
+              <h2 class="japanese">{singleMath.props.singleMath.data.title}</h2>
+            </a>
+            <div class="date japanese2 etc">
+              <span>
+                {new Date(
+                  singleMath.props.singleMath.data.date
+                ).toLocaleDateString("ja-JP", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </span>
+              <span>履修学年:{singleMath.props.singleMath.data.grad}年</span>
+              <span>単元:{singleMath.props.singleMath.data.field}</span>
+            </div>
+            <div class="summary japanese2">
+              {singleMath.props.singleMath.data.excerpt}
+            </div>
+            <div class="bottom">
+              <a href={"/math/" + singleMath.params.slug}>続きを読む</a>
+            </div>
+          </div>
+          <div class="article-right">
+            <Image
+              src={singleMath.props.singleMath.data.image}
+              alt="math-image"
+              width="1200"
+              height="400"
+            />
+          </div>
+        </li>
+      ))
+    }
+    <PrevNext page={Astro.props.page} />
+  </ul>
+</Layout>

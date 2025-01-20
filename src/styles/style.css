@@ -466,7 +466,7 @@ body{
   display: flex;
   justify-content: center;
   gap: 2rem;
-  margin-top: 5rem;
+  margin-top: 3rem;
   max-width: 80vw; 
   padding-right: 30px; 
   padding-left:  30px;
@@ -481,6 +481,7 @@ body{
   width: 100%;
   padding: 2rem 5rem;
   color: inherit;
+  background-color: #fff;
 }
 .pnWrapper > a img{
   margin: auto 10px
@@ -488,6 +489,23 @@ body{
 
 .pnWrapper > a:hover {
   opacity: 0.8;
+}
+.pnWrapper .pagination{
+  display: flex;
+  list-style: none;
+  border: 2px solid #35BCFF;
+  background-color: #fff;
+  column-gap: 5px;
+  padding-inline-start:0;
+}
+.pnWrapper .pagination li{
+  justify-content: center;
+  padding: 1.5rem 10px;
+  color: inherit;
+}
+.pnWrapper .pagination a{
+  display: flex;
+  color: blue;;
 }
 .contact{
   display: flex;

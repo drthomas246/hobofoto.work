@@ -160,7 +160,6 @@ const Title = ({ images }: { images: any }) => {
 
   const handlers = useSwipeable({
     onSwiped: (event) => {
-      console.log(event);
       if (event.dir == "Up") {
         if (number < 5) {
           setNumber(number + 1);

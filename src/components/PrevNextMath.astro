@@ -1,0 +1,51 @@
+---
+import { Image } from "astro:assets";
+import ArrowLeft from "../images/arrow-left.svg";
+import ArrowRight from "../images/arrow-right.svg";
+
+function* createNum(maxNum: number) {
+    var i = 1;
+    while (i <= maxNum)
+        yield i++;
+}
+
+const adjacentPageNumber = 1;
+const pager = [...createNum(Astro.props.page.lastPage)];
+const lowPageNumber = Astro.props.page.currentPage - adjacentPageNumber;
+const highPageNumber = Astro.props.page.currentPage + adjacentPageNumber;
+const getPath = (page: number) => {
+  return `./${page}`;
+};
+
+---
+
+<nav class="pnWrapper">
+  <ul class="pagination">
+    <!-- 前ページが存在する場合はPREVリンクを表示する -->
+    {Astro.props.page.url.prev && <li><a href={Astro.props.page.url.prev}><Image src={ArrowLeft} alt="arrow-left" />Prev</a></li>}
+    <!-- 現在ページが「隣接ページ数 + 1」を超える場合は先頭ページと...を表示する -->
+    {adjacentPageNumber + 1 < Astro.props.page.currentPage && (
+      <li>
+        <a href={getPath(1)}>1</a>
+      </li>
+      <li class="dot">&#8230;</li>
+    )}
+    <!-- ページ番号の配列リストから「現在ページ +- 隣接ページ数」のページを表示する -->
+    {pager.map((p:number)=>(
+      (lowPageNumber <= p) && (p <= highPageNumber) && <li>{p===Astro.props.page.currentPage ? <div>{p}</div> : <a href={getPath(p)}>{p}</a>}</li>
+    )
+    )}
+    <!-- 現在ページが「最終ページ - 隣接ページ数」の場合...と最終ページを表示する -->
+    {Astro.props.page.currentPage < Astro.props.page.lastPage - adjacentPageNumber && (
+      <li class="dot">&#8230;</li>
+      <li>
+        <a href={getPath(Astro.props.page.lastPage)}>
+          {Astro.props.page.lastPage}
+        </a>
+      </li>
+    )
+    }
+    <!-- 次ページが存在する場合はNEXTリンクを表示する -->
+    {Astro.props.page.url.next && <li><a href={Astro.props.page.url.next}>Next<Image src={ArrowRight} alt="arrow-right" /></a></li>}
+  </ul>
+</nav>

@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
+import ArrowRight from "../../images/arrow-right.svg";
 import Layout from "../../layouts/math.astro";
 
 const response = await getCollection("math");
@@ -8,15 +9,22 @@ const response = await getCollection("math");
 const orderedMath = response.sort((a: any, b: any): number => {
   const dayA: any = new Date(a.data.date);
   const dayB: any = new Date(b.data.date);
-  const diffMilliSec = dayB - dayA;
-  return diffMilliSec;
+  const diffMillisecond = dayB - dayA;
+  return diffMillisecond;
 });
+
+const pageSize = 3;
+const lastPage = Math.ceil(orderedMath.length / pageSize);
+const limitedMaths = orderedMath.slice(0, pageSize);
+const getPath = (page: number) => {
+  return `/math/page/${page}`;
+};
 ---
 
 <Layout title="maths" description="Yamahara Yoshihiro's Maths site">
   <ul class="article-list">
     {
-      orderedMath.map((singleMath: any) => (
+      limitedMaths.map((singleMath: any) => (
         <li class="article-item">
           <div class="article-left">
             <a href={"/math/" + singleMath.slug}>
@@ -49,5 +57,37 @@ const orderedMath = response.sort((a: any, b: any): number => {
         </li>
       ))
     }
+    <nav class="pnWrapper">
+      <ul class="pagination">
+        <li>
+          <div>1</div>
+        </li>
+        {
+          lastPage > 2 && (
+            <li>
+              <a href={getPath(2)}>2</a>
+            </li>
+          )
+        }
+        {lastPage > 3 && <li class="dot">&#8230;</li>}
+
+        <li>
+          <a href={getPath(lastPage)}>
+            {lastPage}
+          </a>
+        </li>
+        <!-- 次ページが存在する場合はNEXTリンクを表示する -->
+        {
+          lastPage > 1 && (
+            <li>
+              <a href={getPath(lastPage)}>
+                Next
+                <Image src={ArrowRight} alt="arrow-right" />
+              </a>
+            </li>
+          )
+        }
+      </ul>
+    </nav>
   </ul>
 </Layout>
