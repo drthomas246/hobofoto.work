@@ -151,12 +151,12 @@ const HeroComponent = ({
   );
 };
 
-const Title = ({ images }: { images: any }) => {
+const Title = ({ p, images }: { p: string; images: any }) => {
   const hero = useRef<RefObject<HTMLDivElement | null>[]>([]);
   for (let index = 0; index < 6; index++) {
     hero.current[index] = createRef<HTMLDivElement>();
   }
-  const [number, setNumber] = useState(0);
+  const [number, setNumber] = useState(Number(p));
 
   const handlers = useSwipeable({
     onSwiped: (event) => {

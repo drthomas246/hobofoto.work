@@ -70,17 +70,19 @@ const getPath = (page: number) => {
           )
         }
         {lastPage > 3 && <li class="dot">&#8230;</li>}
-
-        <li>
-          <a href={getPath(lastPage)}>
-            {lastPage}
-          </a>
-        </li>
-        <!-- 次ページが存在する場合はNEXTリンクを表示する -->
         {
           lastPage > 1 && (
             <li>
-              <a href={getPath(lastPage)}>
+              <a href={getPath(lastPage)}>{lastPage}</a>
+            </li>
+          )
+        }
+
+        <!-- 次ページが存在する場合はNEXTリンクを表示する -->
+        {
+          lastPage > 2 && (
+            <li>
+              <a href={getPath(2)}>
                 Next
                 <Image src={ArrowRight} alt="arrow-right" />
               </a>

@@ -1,5 +1,6 @@
 // @ts-check
 import react from '@astrojs/react';
+import vercel from "@astrojs/vercel";
 import rehypeMathML from '@daiji256/rehype-mathml';
 import { defineConfig } from 'astro/config';
 import remarkDirective from "remark-directive";
@@ -14,6 +15,7 @@ import remarkVimeoDirective from "./src/plugins/remarkVimeo";
 // https://astro.build/config
 export default defineConfig({
   integrations: [react(), sitemap()],
+
   markdown: {
     remarkPlugins: [
       remarkMath,
@@ -25,5 +27,7 @@ export default defineConfig({
       remarkRubyDirective
     ],
     rehypePlugins: [rehypeMathML],
-  }
+  },
+
+  adapter: vercel()
 });

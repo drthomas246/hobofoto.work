@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import { getImage } from "astro:assets";
 import Title from "../components/title.jsx";
 import Top_1 from "../images/top_1.png";
@@ -14,10 +16,18 @@ const image_3 = await getImage({ src: Top_3, format: "webp" });
 const image_4 = await getImage({ src: Top_4, format: "webp" });
 const image_5 = await getImage({ src: Top_5, format: "webp" });
 const image_6 = await getImage({ src: Top_6, format: "webp" });
+
+let p = "0";
+if (Astro.request.method === "GET") {
+  const url = new URL(Astro.request.url);
+  const params = new URLSearchParams(url.search);
+  p = params.get("p") || "0";
+}
 ---
 
 <Layout title="" description="HoBoFoTo.work site">
   <Title
+    p={p}
     images={[image_1, image_2, image_3, image_4, image_5, image_6]}
     client:load
   />
