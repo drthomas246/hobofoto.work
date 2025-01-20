@@ -6,6 +6,7 @@ import rehypeMathML from '@daiji256/rehype-mathml';
 import { defineConfig } from 'astro/config';
 import remarkDirective from "remark-directive";
 import remarkMath from 'remark-math';
+import { CopyFilesPlugin } from './copy-files';
 import remarkRubyDirective from "./src/plugins/remarkRuby";
 import remarkRubyStringDirective from "./src/plugins/remarkRubyString";
 import remarkTalkingLeftDirective from "./src/plugins/remarkTalkingLeft";
@@ -23,7 +24,8 @@ export default defineConfig({
           page !== "https://www.hobofoto.work/aboutme/confirm/" &&
           page !== "https://www.hobofoto.work/aboutme/thanks/"
       }
-    )
+    ),
+    CopyFilesPlugin()
   ],
 
   markdown: {
