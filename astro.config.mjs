@@ -38,6 +38,6 @@ export default defineConfig({
     ],
     rehypePlugins: [rehypeMathML],
   },
-
+  output: "server",
   adapter: vercel()
 });
