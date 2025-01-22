@@ -3,6 +3,7 @@ import react from '@astrojs/react';
 import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 import rehypeMathML from '@daiji256/rehype-mathml';
+import pagefind from "astro-pagefind";
 import { defineConfig } from 'astro/config';
 import remarkDirective from "remark-directive";
 import remarkMath from 'remark-math';
@@ -15,6 +16,9 @@ import remarkVimeoDirective from "./src/plugins/remarkVimeo";
 
 // https://astro.build/config
 export default defineConfig({
+  build: {
+    format: "file",
+  },
   site: "https://www.hobofoto.work/",
   integrations: [
     react(),
@@ -25,6 +29,7 @@ export default defineConfig({
           page !== "https://www.hobofoto.work/aboutme/thanks/"
       }
     ),
+    pagefind(),
     CopyFilesPlugin()
   ],
 

@@ -31,6 +31,33 @@ body{
   width: 100vw;
   height: 100vh;
 }
+.hero .find{
+  position:absolute;
+  top: 50px;
+  right: 50px;
+  z-index: 10;
+  border: #0e0d0d 2px solid;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.hero .find-form{
+  display: flex;
+}
+.hero .search, .hero .search-btn{
+  background-color:unset;
+  border: unset;
+}
+.hero .search{
+  transform-origin: left;
+  margin-left: 10px;
+}
+.hero .search:focus-visible{
+  outline:none;
+}
+.hero .search-btn{
+  cursor: pointer;
+  padding: 15px;
+}
 .hero .hero_content{
   display: none;
 }
@@ -747,7 +774,6 @@ body{
   content: "+";
   color: #16a34a;
 }
-
 @media screen and (max-width: 900px){
   .container{
     width: 90%;

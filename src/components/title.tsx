@@ -11,6 +11,7 @@ interface HeroComponentProps {
   languageSummary?: string;
   summary?: string;
   image: string;
+  Search: any;
 }
 const Scroll = ({ className }: { className: string }) => {
   return (
@@ -62,8 +63,27 @@ const HeroComponent = ({
   languageSummary = "",
   summary = "",
   image,
+  Search,
 }: HeroComponentProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleClick = () => {
+    if (isVisible) {
+      if (searchQuery.trim() !== "") {
+        console.log("検索クエリ:", searchQuery);
+      } else {
+        setIsVisible(false);
+      }
+    } else {
+      setIsVisible(true);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
   // 各文字のアニメーション設定
   const container = {
     hidden: { opacity: 1 },
@@ -80,6 +100,28 @@ const HeroComponent = ({
   };
   return (
     <div className="hero_content" ref={ref}>
+      {/* <div className="find">
+        <form className="find-form" action={handleClick}>
+          {isVisible && (
+            <motion.input
+              className="search"
+              type="text"
+              placeholder="Search"
+              value={searchQuery}
+              onChange={handleInputChange}
+              initial={{ opacity: 0, width: 0 }}
+              animate={{
+                opacity: isVisible ? 1 : 0,
+                width: isVisible ? "300px" : "0px",
+              }}
+              transition={{ duration: 0.5, ease: "linear" }}
+            />
+          )}
+          <button className="search-btn" type="submit">
+            <img src={Search.src} alt="search" width={20} height={20} />
+          </button>
+        </form>
+      </div> */}
       {h1 ? (
         <div className="string">
           <motion.h1
@@ -151,7 +193,15 @@ const HeroComponent = ({
   );
 };
 
-const Title = ({ p, images }: { p: string; images: any }) => {
+const Title = ({
+  p,
+  images,
+  Search,
+}: {
+  p: string;
+  images: any;
+  Search: any;
+}) => {
   const hero = useRef<RefObject<HTMLDivElement | null>[]>([]);
   for (let index = 0; index < 6; index++) {
     hero.current[index] = createRef<HTMLDivElement>();
@@ -199,6 +249,7 @@ const Title = ({ p, images }: { p: string; images: any }) => {
         h1={true}
         title="HoBoFoTo.work"
         image={images[0].src}
+        Search={Search}
       />
       <HeroComponent
         ref={hero.current[1]}
@@ -208,6 +259,7 @@ const Title = ({ p, images }: { p: string; images: any }) => {
         languageSummary="japanese"
         summary="技術的なことから日々のことまで"
         image={images[1].src}
+        Search={Search}
       />
       <HeroComponent
         ref={hero.current[2]}
@@ -217,6 +269,7 @@ const Title = ({ p, images }: { p: string; images: any }) => {
         languageSummary="japanese"
         summary="四季折々の写真達"
         image={images[2].src}
+        Search={Search}
       />
       <HeroComponent
         ref={hero.current[3]}
@@ -226,6 +279,7 @@ const Title = ({ p, images }: { p: string; images: any }) => {
         languageSummary="japanese"
         summary="自作ソフトウェアなど"
         image={images[3].src}
+        Search={Search}
       />
       <HeroComponent
         ref={hero.current[4]}
@@ -235,6 +289,7 @@ const Title = ({ p, images }: { p: string; images: any }) => {
         languageSummary="japanese"
         summary="中学数学をできるだけていねいに"
         image={images[4].src}
+        Search={Search}
       />
       <HeroComponent
         ref={hero.current[5]}
@@ -244,6 +299,7 @@ const Title = ({ p, images }: { p: string; images: any }) => {
         languageSummary="japanese"
         summary="ポートフォリオや連絡先など"
         image={images[5].src}
+        Search={Search}
       />
     </div>
   );
