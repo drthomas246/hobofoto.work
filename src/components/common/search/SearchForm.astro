@@ -1,12 +1,22 @@
 ---
-import "@pagefind/default-ui/css/ui.css";
+import Search from "astro-pagefind/components/Search";
 ---
 
-<div id="search"></div>
-
-<script>
-  import { PagefindUI } from "@pagefind/default-ui";
-  new PagefindUI({
-    element: "#search",
-  });
-</script>
+<Search
+  id="search"
+  className="pagefind-ui"
+  uiOptions={{
+    showImages: true,
+    pageSize: 100,
+    translations: {
+      zero_results: "「[SEARCH_TERM]」の検索結果は見つかりませんでした",
+      one_result: "「[SEARCH_TERM]」の検索結果は[COUNT]件見つかりました",
+      many_results: "「[SEARCH_TERM]」の検索結果は[COUNT]件見つかりました",
+      alt_search:
+        "「[SEARCH_TERM]」の検索結果は見つかりませんでした。「[DIFFERENT_TERM]」の検索結果を表示しています",
+      search_suggestion:
+        "「[SEARCH_TERM]」の検索に一致する件はありませんでした。次のいずれかの検索を試してください",
+      searching: "「[SEARCH_TERM]」を検索しています",
+    },
+  }}
+/>

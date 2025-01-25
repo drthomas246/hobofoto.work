@@ -63,12 +63,28 @@ const next = await getBlogs("blogs", {
   canonical={`/${slug}`}
   image={blog.eyecatch.url}
 >
-  <div class="writing">
+  <div class="writing" data-pagefind-body>
     <div class="title">
-      <h2 class="japanese">{blog.title}</h2>
-      <Image src={blog.eyecatch.url} alt="image" width={1200} height={400} />
+      <h2 class="japanese" data-pagefind-meta="title">{blog.title}</h2>
+      <Image
+        src={blog.eyecatch.url}
+        alt="image"
+        width={1200}
+        height={400}
+        data-pagefind-meta="image[src], image_alt[alt]"
+      />
     </div>
-    <p class="japanese">
+    <p
+      class="japanese"
+      data-pagefind-meta={`公開日:${new Date(blog.publishedAt)
+        .toLocaleDateString("ja-JP", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        })
+        .split("/")
+        .join("-")}`}
+    >
       {
         new Date(blog.publishedAt).toLocaleDateString("ja-JP", {
           year: "numeric",

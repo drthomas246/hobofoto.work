@@ -3,7 +3,6 @@ export const prerender = false;
 
 import { getImage } from "astro:assets";
 import Title from "../components/title.jsx";
-import Search from "../images/search.svg";
 import Top_1 from "../images/top_1.png";
 import Top_2 from "../images/top_2.png";
 import Top_3 from "../images/top_3.png";
@@ -30,7 +29,6 @@ if (Astro.request.method === "GET") {
   <Title
     p={p}
     images={[image_1, image_2, image_3, image_4, image_5, image_6]}
-    Search={Search}
     client:load
   />
 </Layout>

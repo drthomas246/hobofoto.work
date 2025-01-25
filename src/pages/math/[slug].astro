@@ -60,17 +60,23 @@ const { Content } = await entry!.render();
   canonical={`/${Astro.props.singleMath.slug}`}
   image={Astro.props.singleMath.data.image}
 >
-  <div class="writing">
+  <div class="writing" data-pagefind-body>
     <div class="title">
-      <h2 class="japanese">{Astro.props.singleMath.data.title}</h2>
+      <h2 class="japanese" data-pagefind-meta="title">
+        {Astro.props.singleMath.data.title}
+      </h2>
       <Image
         src={Astro.props.singleMath.data.image}
         alt="image"
         width={1200}
         height={400}
+        data-pagefind-meta="image[src], image_alt[alt]"
       />
     </div>
-    <p class="japanese etc">
+    <p
+      class="japanese etc"
+      data-pagefind-meta={`公開日:${Astro.props.singleMath.data.date}`}
+    >
       <span>
         {
           new Date(Astro.props.singleMath.data.date).toLocaleDateString(

@@ -1,6 +1,12 @@
 body{
   margin: 0;
   padding: 0;
+  width: 100vw;
+  height: 100vh;
+}
+.site{
+  position: inherit;
+  
 }
 .breadcrumb {
   position: absolute;
@@ -31,35 +37,66 @@ body{
   width: 100vw;
   height: 100vh;
 }
-.hero .find{
-  position:absolute;
+.find {
+  position: absolute;
+  align-items: flex-start;
   top: 50px;
   right: 50px;
   z-index: 10;
   border: #0e0d0d 2px solid;
   border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.6);
+  z-index: 20;
+  display: none;
+  padding: 10px;
+  overflow: hidden;
+  animation: fadeIn 2s ease-in;
 }
-.hero .find-form{
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.find.show{
   display: flex;
 }
-.hero .search, .hero .search-btn{
+.find.open{
+  background-color: rgba(255, 255, 255, 1);
+}
+.find .search-btn{
   background-color:unset;
   border: unset;
-}
-.hero .search{
-  transform-origin: left;
-  margin-left: 10px;
-}
-.hero .search:focus-visible{
-  outline:none;
-}
-.hero .search-btn{
   cursor: pointer;
   padding: 15px;
+  z-index: 30;
 }
-.hero .hero_content{
-  display: none;
+.find .pagefind-ui {
+  width: 0;
+  height: 50px;
+  overflow: hidden;
+  transform: translateX(100%);
+  transition: transform 0.5s ease-in-out, width 0.5s ease-in-out; 
+}
+.find.open .pagefind-ui {
+  width: calc(100vw - 174px);
+  height: auto;
+  transform: translateX(0);
+}
+.find .pagefind-ui__search-input{
+  --pagefind-ui-border: none;
+}
+.find .pagefind-ui__results{
+  max-height: calc(100vh - 220px);
+  overflow: auto;
+}
+.find .pagefind-ui__message{
+  border-bottom: solid var(--pagefind-ui-border) var(--pagefind-ui-border-width);
+}
+.find .pagefind-ui__search-input:focus-visible{
+  outline:none;
 }
 .hero-title{
   font-size: 36px;
@@ -245,7 +282,7 @@ body{
   background-image: url("/software.webp");
 }
 .photo{
-  background-image: url("/foto.webp");
+  background-image: url("/photo.webp");
 }
 .about{
   background-image: url("/about.webp");
@@ -601,10 +638,6 @@ body{
   color: blue;
 }
 
-/*------------------------------
-  画像付き吹き出し(会話)
-------------------------------*/
-/* 吹き出し 全体*/
 .talking {
   margin-bottom:2em;
   position:relative;
@@ -628,20 +661,19 @@ body{
   display:block;
 }
 
-/*アイコン*/
 .talking figure {
-  width:100px;     /*アイコンの横幅*/
-  height:100px;    /*アイコンの縦幅*/
+  width:100px;
+  height:100px;
 }
 
 .talking-left_icon {
   float:left;
-  margin-right:20px;    /*アイコンの右の余白(左の吹き出し)*/
+  margin-right:20px;
 }
 
 .talking-right_icon {
   float:right;
-  margin-left:20px;    /*アイコンの左の余白(右の吹き出し)*/
+  margin-left:20px;
 }
 
 .talking figure img {
@@ -649,10 +681,9 @@ body{
   height:100%;
   margin:0;
   border:2px solid #aaa;
-  border-radius:50%;    /*アイコンの角丸*/
+  border-radius:50%;
 }
 
-/*アイコンの下の名前*/
 .talking-left_icon figcaption ,
 .talking-right_icon figcaption {
   padding:2px 0 0;
@@ -660,12 +691,11 @@ body{
   text-align:center;
 }
 
-/*吹き出しのセリフ部分*/
 .talking-left , .talking-right  {
   position:relative;
   padding:10px;
-  border-style:solid;    /*枠線の線種*/
-  border-radius:10px;    /*セリフを入れる部分の角丸*/
+  border-style:solid;
+  border-radius:10px;
   max-width: calc(100% - 80px);
   width: calc(100% - 240px);
 }
@@ -678,20 +708,18 @@ body{
   margin:0;
 }
 
-/*---左の吹き出し---*/
 .talking-left {
   float:left;
-  border-width:2px;         /*枠線の太さ*/
-  border-color:lightpink;   /*枠線の色*/
-  background:lightpink;    /*背景色*/
+  border-width:2px;
+  border-color:lightpink;
+  background:lightpink;
 }
 
-/*左の吹き出し 三角*/
 .talking-left:before {
   position: absolute;
   content: '';
   border: 10px solid transparent;
-  border-right: 10px solid lightpink;  /*三角の線になる部分*/
+  border-right: 10px solid lightpink;
   top: 15px;
   left: -22px;
 }
@@ -705,20 +733,19 @@ body{
   left: -19px;
 }
 
-/*---右の吹き出し---*/
+
 .talking-right {
   float:right;
-  border-width:2px;      /*枠線の太さ*/
-  border-color:khaki;    /*枠線の色*/
-  background:khaki;    /*背景色*/
+  border-width:2px;
+  border-color:khaki;
+  background:khaki;
 }
 
-/*右の吹き出し 三角*/
 .talking-right:before {
   position: absolute;
   content: '';
   border: 10px solid transparent;
-  border-left: 10px solid khaki;  /*三角の線になる部分*/
+  border-left: 10px solid khaki;
   top: 15px;
   right: -22px;
 }

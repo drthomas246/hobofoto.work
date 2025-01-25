@@ -7,8 +7,8 @@ const year = new Date().getFullYear();
 ---
 
 <Layout title="About me" description="HoBoFoTo.work Portfolio site">
-  <div class="portfolio">
-    <h2 class="japanese2">ポートフォリオ</h2>
+  <div class="portfolio" data-pagefind-body>
+    <h2 class="japanese2" data-pagefind-meta="title">ポートフォリオ</h2>
     <p class="name japanese2">
       <ruby>山原<rt>やまはら</rt></ruby>
       <ruby>喜寛<rt>よしひろ</rt></ruby>
@@ -74,7 +74,13 @@ const year = new Date().getFullYear();
         >
       </div>
       <div class="portfolio-right">
-        <Image src={Portrait} alt="portrait" width={400} height={400} />
+        <Image
+          src={Portrait}
+          alt="portrait"
+          width={400}
+          height={400}
+          data-pagefind-meta="image[src], image_alt[alt]"
+        />
         <p class="japanese2 caption">画像はイメージです</p>
       </div>
     </div>

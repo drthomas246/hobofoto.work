@@ -261,7 +261,7 @@ sphinx-apidoc -o ./sphinx/source ./source
   　　 Copyright © 1995-2011 by Fredrik Lundh  
   Pillow is the friendly PIL fork. It is  
   　　 Copyright © 2010, by Alex Clark and contributors  
-  Released under the PIL licens  
+  Released under the PIL license  
   [https://raw.githubusercontent.com/python-pillow/Pillow/master/LICENSE](https://raw.githubusercontent.com/python-pillow/Pillow/master/LICENSE)
 
 - Yahoo! 校正支援  
@@ -272,8 +272,8 @@ sphinx-apidoc -o ./sphinx/source ./source
   This software includes the work that is distributed in the [Apache License 2.0](https://raw.githubusercontent.com/nedbat/coveragepy/v4.5.x/LICENSE.txt).
 
 - Sphinx  
-  Copyright(C) 2007, by the Sphinx team (see AUTHOS file).  
-  Released under the Sphinx licens  
+  Copyright(C) 2007, by the Sphinx team (see AUTHORS file).  
+  Released under the Sphinx license  
   [https://raw.githubusercontent.com/sphinx-doc/sphinx/refs/heads/master/LICENSE.rst](https://raw.githubusercontent.com/sphinx-doc/sphinx/refs/heads/master/LICENSE.rst)
 
 - sphinx-tsegsearch  

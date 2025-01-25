@@ -64,7 +64,7 @@ textarea, select {
   font: inherit;
 }
 
-/* rows属性のないtextareasが小さくならないようにする */
+/* rows属性のないtextareaが小さくならないようにする */
 textarea:not([rows]) {
   min-height: 10em;
 }

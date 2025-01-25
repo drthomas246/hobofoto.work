@@ -88,7 +88,7 @@ $ npm install
   `npm storybook`
   でサーバーが起動し、ブラウザで[http://localhost:6006](http://localhost:6006)にアクセスすると確認できます。
 
-### 📑Version infomation
+### 📑Version information
 
 #### 1.2.0
 

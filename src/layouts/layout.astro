@@ -1,9 +1,11 @@
 ---
 import { ClientRouter } from "astro:transitions";
-import { getImage } from "astro:assets";
+import { getImage, Image } from "astro:assets";
+import Search from "../images/search.svg";
 import Site from "../images/site.webp";
 import "../styles/reset.css";
 import "../styles/style.css";
+import SearchForm from "../components/common/search/SearchForm.astro";
 const image = await getImage({
   src: Site,
   width: 756,
@@ -78,7 +80,45 @@ const image = await getImage({
     <ClientRouter />
   </head>
   <body>
+    <div class="find">
+      <SearchForm />
+      <button class="search-btn" type="button">
+        <Image src={Search} alt="search" width={20} height={20} />
+      </button>
+    </div>
     <slot />
+    <script>
+      function initializeSearchToggle() {
+        const find = document.querySelector(".find") as HTMLDivElement;
+        const input = document.querySelector(".pagefind-ui") as HTMLDivElement;
+        const button = document.querySelector(
+          ".search-btn"
+        ) as HTMLButtonElement;
+        const inputForm = document.querySelector(
+          ".pagefind-ui__search-input"
+        ) as HTMLInputElement;
+
+        if (!find || !input || !button || !inputForm) return;
+
+        function toggleSearch() {
+          find.classList.toggle("open"); // openクラスの切り替え
+          if (find.classList.contains("open")) {
+            inputForm.focus();
+          }
+        }
+
+        // クリックイベントリスナーを設定
+        button.addEventListener("click", toggleSearch);
+      }
+      function showFind() {
+        const find = document.getElementsByClassName("find")[0];
+        find.classList.add("show");
+      }
+
+      // 初回読み込み時とページ遷移時に実行
+      document.addEventListener("astro:page-load", initializeSearchToggle);
+      document.addEventListener("astro:page-load", showFind);
+    </script>
     <script>
       (function (d) {
         var config = {
@@ -107,7 +147,7 @@ const image = await getImage({
             Typekit.load(config);
           } catch (e) {}
         };
-        s.parentNode.insertBefore(tk, s);
+        s.parentNode?.insertBefore(tk, s);
       })(document);
     </script>
   </body>
