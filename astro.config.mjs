@@ -34,6 +34,9 @@ export default defineConfig({
   ],
 
   markdown: {
+    shikiConfig: {
+      theme: 'tokyo-night',
+    },
     remarkPlugins: [
       remarkMath,
       remarkDirective,

@@ -59,7 +59,7 @@ image: "/software/high-school-information-around-osaka.webp"
 
 ![GitHub](https://img.shields.io/badge/GitHub-gray?logo=github&logoColor=white)からクローンしてもらい![npm](https://img.shields.io/badge/npm-gray?logo=npm&logoColor=%23CB3837)で必要なパッケージをダウンロードしてください。
 
-```
+```shell
 $ git clone https://github.com/drthomas246/OsakaHightSchool.git
 $ npm install
 ```

@@ -86,3 +86,53 @@ const year = new Date().getFullYear();
     </div>
   </div>
 </Layout>
+
+<style>
+  .portfolio {
+    margin-block-start: 20px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    overflow: auto;
+    height: calc(100vh - 140px);
+  }
+  .portfolio-content {
+    display: flex;
+    flex-direction: row;
+    row-gap: 10px;
+  }
+  .portfolio::-webkit-scrollbar {
+    display: none;
+  }
+  .portfolio .name {
+    font-size: x-large;
+    padding-left: 1em;
+  }
+  .portfolio-left {
+    display: flex;
+    width: calc((80vw - 120px) / 2);
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .portfolio .caption {
+    text-align: center;
+    font-size: small;
+  }
+  .portfolio ul {
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+  .portfolio-right img {
+    width: calc((80vw - 120px) / 2);
+    object-fit: contain;
+  }
+  .skill {
+    display: flex;
+    row-gap: 10px;
+  }
+  .skill-left {
+    width: calc((80vw - 120px) / 4);
+  }
+  .skill-right {
+    width: calc((80vw - 120px) / 4);
+  }
+</style>

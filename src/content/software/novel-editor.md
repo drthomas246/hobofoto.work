@@ -100,12 +100,12 @@ image: "/software/novel-editor.webp"
 - 開発者用に[Documentation](https://drthomas246.github.io/novel_editor/html/)を置いてあります。
 - 作成は sphinx を使っています。sphinx をインストールしてフォルダーとプロジェクトを作成します。
 
-```
-python -m pip install sphinx
-python -m pip install sphinx-rtd-theme
-python -m pip install recommonmark
-mkdir sphinx
-sphinx-quickstart
+```shell
+$ python -m pip install sphinx
+$ python -m pip install sphinx-rtd-theme
+$ python -m pip install recommonmark
+$ mkdir sphinx
+$ sphinx-quickstart
 ```
 
 - ./sphinx/source/conf.py を変更します。
@@ -127,14 +127,14 @@ html_theme = 'sphinx_rtd_theme'
 
 - ドキュメントを生成します。ルートフォルダーで以下のコマンドを実行します。
 
-```
-sphinx-apidoc -o ./sphinx/source ./source
+```shell
+$ sphinx-apidoc -o ./sphinx/source ./source
 ```
 
 - html ファイルを生成します。
 
-```
-./sphinx/make.bat html
+```shell
+$ ./sphinx/make.bat html
 ```
 
 ## 改変履歴

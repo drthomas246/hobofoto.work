@@ -14,5 +14,7 @@ import Layout from "../../layouts/aboutme.astro";
     <p>下記の内容でよろしいですか</p>
     <Confirms client:load />
   </div>
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <slot name="AppendFoot">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  </slot>
 </Layout>
