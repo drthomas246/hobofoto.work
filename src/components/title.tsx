@@ -1,3 +1,4 @@
+import type { GetImageResult } from "astro";
 import { motion } from "framer-motion";
 import { createRef, useEffect, useRef, useState, type RefObject } from "react";
 import { useSwipeable } from "react-swipeable";
@@ -160,9 +161,9 @@ const HeroComponent = ({
   );
 };
 
-const Title = ({ p, images }: { p: string; images: any }) => {
+const Title = ({ p, images }: { p: string; images: GetImageResult[] }) => {
   const hero = useRef<RefObject<HTMLDivElement | null>[]>([]);
-  for (let index = 0; index < 6; index++) {
+  for (let index = 0; index < images.length; index++) {
     hero.current[index] = createRef<HTMLDivElement>();
   }
   const [number, setNumber] = useState(Number(p));
@@ -170,7 +171,7 @@ const Title = ({ p, images }: { p: string; images: any }) => {
   const handlers = useSwipeable({
     onSwiped: (event) => {
       if (event.dir == "Up") {
-        if (number < 5) {
+        if (number < images.length - 1) {
           setNumber(number + 1);
         }
       }
@@ -185,7 +186,7 @@ const Title = ({ p, images }: { p: string; images: any }) => {
 
   const handleWheel = (event: any) => {
     if (event.deltaY > 0) {
-      if (number < 5) {
+      if (number < images.length - 1) {
         setNumber(number + 1);
       }
     } else {
@@ -196,7 +197,7 @@ const Title = ({ p, images }: { p: string; images: any }) => {
   };
 
   useEffect(() => {
-    for (let index = 0; index < 6; index++) {
+    for (let index = 0; index < images.length; index++) {
       hero.current[index].current!.style.display = "none";
     }
     hero.current[number].current!.style.display = "block";
@@ -247,12 +248,21 @@ const Title = ({ p, images }: { p: string; images: any }) => {
       />
       <HeroComponent
         ref={hero.current[5]}
+        href="/novels"
+        languageTitle="english"
+        title="Novels"
+        languageSummary="japanese"
+        summary="小説たち"
+        image={images[5].src}
+      />
+      <HeroComponent
+        ref={hero.current[6]}
         href="/aboutme"
         languageTitle="english"
         title="About me"
         languageSummary="japanese"
         summary="ポートフォリオや連絡先など"
-        image={images[5].src}
+        image={images[6].src}
       />
     </div>
   );
