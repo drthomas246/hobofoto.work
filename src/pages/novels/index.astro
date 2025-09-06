@@ -1,0 +1,82 @@
+---
+import { Image } from "astro:assets";
+import { getCollection, type CollectionEntry } from "astro:content";
+import Layout from "../../layouts/novels.astro";
+
+// draft を除外したい場合はフィルタ
+const novelsRaw = await getCollection("novels", (entry) =>
+  /^(.+)\/index.md$/.test(entry.id),
+);
+
+// 末尾 /index を削る（安全ガード付き）
+function toDisplaySlug(e: CollectionEntry<"novels">) {
+  // e が壊れている可能性への防御
+  if (!e) return "";
+  const base = (e as any).slug ?? e.id; // id は必ず string のはず
+  if (typeof base !== "string") return "";
+  return base.endsWith("/index") ? base.slice(0, -6) : base;
+}
+
+// date を Date|null に正規化（schema が z.date() でも string でも対応）
+function normalizeDate(d: unknown): Date | null {
+  if (!d) return null;
+  return d instanceof Date ? d : new Date(String(d));
+}
+
+// 表示用配列を構築（ここで displaySlug を確定しておく）
+const novels = novelsRaw
+  .map((e) => ({
+    e,
+    d: normalizeDate(e.data.date),
+    displaySlug: toDisplaySlug(e),
+  }))
+  .sort((a, b) => {
+    // date 降順、無いものは後ろへ、その後は slug で安定ソート
+    if (a.d && b.d) return a.d.getTime() - b.d.getTime();
+    if (a.d) return 1;
+    if (b.d) return -1;
+    return a.displaySlug.localeCompare(b.displaySlug);
+  });
+
+const size = 33 * 4 + 20;
+---
+
+<Layout title="Novels" description="Yamahara Yoshihiro's Softwares site">
+  <div class="header">
+    <h1 class="japanese" style={`height: ${size}px`}>ノベルズ</h1>
+  </div>
+  <div class="article-list">
+    <ul class="article-scroll">
+      {
+        novels.map(({ e, d, displaySlug }) => (
+          <li class="article-item">
+            <div class="article-left">
+              <a href={`/novels/${displaySlug}/1`}>
+                <h2 class="japanese">{e.data.title}</h2>
+              </a>
+              <div class="date japanese2">
+                {d!.toLocaleDateString("ja-JP", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </div>
+              <div class="summary japanese2">{e.data.excerpt}</div>
+              <div class="article-right">
+                <Image
+                  src={e.data.image}
+                  alt="math-image"
+                  width="1024"
+                  height="1024"
+                />
+              </div>
+              <div class="bottom">
+                <a href={`/novels/${displaySlug}/1`}>本文を読む</a>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Layout>

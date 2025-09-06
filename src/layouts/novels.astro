@@ -1,0 +1,43 @@
+---
+import { Image } from "astro:assets";
+import House from "../images/house.svg";
+import Layout from "./layout.astro";
+---
+
+<Layout
+  title={Astro.props.title}
+  description={Astro.props.description}
+  canonical={Astro.props.canonical
+    ? `/software${Astro.props.canonical}`
+    : "/software"}
+  image={Astro.props.image}
+>
+  <div class="novels">
+    <nav class="breadcrumb">
+      <ol>
+        <li class="japanese">
+          <a href="/?p=5" class="home">
+            <!-- house.svg © Fonticons, Inc. -->
+            <Image
+              src={House}
+              alt="home"
+              width={20}
+              height={20}
+              class="house"
+            />
+            <span>ホーム</span>
+          </a>
+        </li>
+        {Astro.props.title!=="Novels" ? (
+          <li class="japanese"><a href="/novels">ノベル</a></li>
+          <li class="japanese">{Astro.props.title}</li>
+        ):(
+          <li class="japanese">ノベル</li>
+        )}
+      </ol>
+    </nav>
+    <div class="novels-container">
+      <slot />
+    </div>
+  </div>
+</Layout>

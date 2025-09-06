@@ -1,0 +1,104 @@
+---
+import {
+  getCollection,
+  getEntry,
+  render,
+  type CollectionEntry,
+} from "astro:content";
+import Layout from "../../layouts/novels.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("novels");
+  return entries.map((entry) => ({
+    params: { slug: ((entry as any).slug ?? entry.id).replace(/\/index$/, "") },
+    props: { id: entry.id }, // ← 取得用の生ID（拡張子なし）
+  }));
+}
+
+// 1) props 優先
+let entry: CollectionEntry<"novels"> | null = null;
+const props = (Astro.props ?? {}) as { id?: string };
+if (props.id) {
+  // ★ undefined を null に正規化してから代入
+  entry = (await getEntry("novels", props.id)) ?? null;
+}
+
+// 2) props が無い/壊れている場合、params から復元
+if (!entry) {
+  const raw = Astro.params?.slug;
+  const slugParam = Array.isArray(raw) ? raw.join("/") : String(raw ?? "");
+  const normalized = slugParam.replace(/\.md$/i, "");
+
+  // 2-1) 直接ID候補で当てに行く（/index も試す）
+  const tryIds = [normalized, `${normalized}/index`];
+  for (const id of tryIds) {
+    const found = await getEntry("novels", id);
+    if (found) {
+      entry = found;
+      break;
+    }
+  }
+
+  // 2-2) それでも無ければ、全件から displaySlug 一致で逆引き
+  if (!entry) {
+    const all = await getCollection("novels");
+    const toDisplaySlug = (e: CollectionEntry<"novels">) =>
+      ((e as any).slug ?? e.id).replace(/\/index$/, "");
+    entry = all.find((e) => toDisplaySlug(e) === normalized) ?? null;
+  }
+}
+
+if (!entry) {
+  throw new Error(
+    `novels entry not found: ${(Astro.params?.slug as any) || props.id || "(unknown)"}`,
+  );
+}
+const size = 33 * entry.data.title.length + 20;
+const { Content } = await render(entry);
+export function dirnameAny(path: string): string {
+  if (!/[\/\\]/.test(path)) return "";
+  // (.*[\/\\]) … 最後の区切りまでをキャプチャ
+  return path.replace(/(.*[\/\\])[^\/\\]*$/, "$1");
+}
+---
+
+<Layout title={entry.data.title} description={entry.data.excerpt}>
+  <div class="header">
+    <h1 class="japanese" style={`height: ${size}px`}>{entry.data.title}</h1>
+  </div>
+  <ul class="article-list">
+    <li class="book">
+      <div class="article-left">
+        <h2 class="japanese" set:html={entry.data.subtitle} />
+        <div class="date japanese2">
+          {
+            new Date(entry.data.date).toLocaleDateString("ja-JP", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          }
+        </div>
+        <div class="japanese2 content">
+          {
+            entry.data.forward && (
+              <a
+                href={`/novels/${dirnameAny(entry.slug)}${entry.data.forward}`}
+              >
+                <div class="backforward">前へ</div>
+              </a>
+            )
+          }
+          <Content />
+          {
+            entry.data.back && (
+              <a href={`/novels/${dirnameAny(entry.slug)}${entry.data.back}`}>
+                <div class="backforward">次へ</div>
+              </a>
+            )
+          }
+        </div>
+      </div>
+    </li>
+  </ul>
+</Layout>
