@@ -1,0 +1,62 @@
+---
+import type { GetStaticPathsOptions } from "astro";
+import { Image } from "astro:assets";
+import { getBlogs } from "../../../libs/microcms";
+import PrevNext from "../../../components/PrevNextMath.astro";
+import Layout from "../../../layouts/blog.astro";
+
+// 日付順に並び替え
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+  const response = await getBlogs("blogs", {
+    fields: ["id", "title", "publishedAt", "metadescription", "eyecatch"],
+    orders: "-publishedAt",
+  });
+
+  const pathsData = response.contents.map((singleBlog) => ({
+    props: {
+      singleBlog: singleBlog,
+    },
+  }));
+  return paginate(pathsData, { pageSize: 3 });
+}
+---
+
+<Layout title="Blogs" description="Yamahara Yoshihiro's Blogs site">
+  <ul class="article-list">
+    {
+      Astro.props.page.data.map((singleBlog: any) => (
+        <li class="article-item">
+          <div class="article-left">
+            <a href={"/blog/" + singleBlog.props.singleBlog.id}>
+              <h2 class="japanese">{singleBlog.props.singleBlog.title}</h2>
+            </a>
+            <div class="date japanese2">
+              {new Date(
+                singleBlog.props.singleBlog.publishedAt,
+              ).toLocaleDateString("ja-JP", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </div>
+            <div class="summary japanese2">
+              {singleBlog.props.singleBlog.metadescription}
+            </div>
+            <div class="bottom">
+              <a href={"/blog/" + singleBlog.props.singleBlog.id}>続きを読む</a>
+            </div>
+          </div>
+          <div class="article-right">
+            <Image
+              src={singleBlog.props.singleBlog.eyecatch.url}
+              alt="article-image"
+              width={singleBlog.props.singleBlog.eyecatch.width}
+              height={singleBlog.props.singleBlog.eyecatch.height}
+            />
+          </div>
+        </li>
+      ))
+    }
+    <PrevNext page={Astro.props.page} />
+  </ul>
+</Layout>

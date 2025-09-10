@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import Layout from "../../layouts/blog.astro";
+import ArrowRight from "../../images/arrow-right.svg";
 import { getBlogs } from "../../libs/microcms";
 
 // 日付順に並び替え
@@ -8,12 +9,20 @@ const response = await getBlogs("blogs", {
   fields: ["id", "title", "publishedAt", "metadescription", "eyecatch"],
   orders: "-publishedAt",
 });
+// 日付順に並び替え
+
+const pageSize = 3;
+const lastPage = Math.ceil(response.contents.length / pageSize);
+const limiteBlogs = response.contents.slice(0, pageSize);
+const getPath = (page: number) => {
+  return `/blog/page/${page}`;
+};
 ---
 
 <Layout title="Blogs" description="HoBoFoTo.work Blogs">
   <ul class="article-list">
     {
-      response.contents.map((singleBlog: any) => (
+      limiteBlogs.map((singleBlog: any) => (
         <li class="article-item">
           <div class="article-left">
             <a href={"/blog/" + singleBlog.id}>
@@ -42,5 +51,39 @@ const response = await getBlogs("blogs", {
         </li>
       ))
     }
+    <nav class="pnWrapper">
+      <ul class="pagination">
+        <li>
+          <div>1</div>
+        </li>
+        {
+          lastPage > 2 && (
+            <li>
+              <a href={getPath(2)}>2</a>
+            </li>
+          )
+        }
+        {lastPage > 3 && <li class="dot">&#8230;</li>}
+        {
+          lastPage > 1 && (
+            <li>
+              <a href={getPath(lastPage)}>{lastPage}</a>
+            </li>
+          )
+        }
+
+        <!-- 次ページが存在する場合はNEXTリンクを表示する -->
+        {
+          lastPage >= 2 && (
+            <li>
+              <a href={getPath(2)}>
+                Next
+                <Image src={ArrowRight} alt="arrow-right" />
+              </a>
+            </li>
+          )
+        }
+      </ul>
+    </nav>
   </ul>
 </Layout>
