@@ -1,0 +1,76 @@
+---
+import type { GetStaticPathsOptions } from "astro";
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import PrevNext from "../../../components/PrevNextMath.astro";
+import Layout from "../../../layouts/software.astro";
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+  const response = await getCollection("software");
+  // 日付順に並び替え
+  const orderedSoftware = response.sort((a: any, b: any): number => {
+    const dayA: any = new Date(a.data.date);
+    const dayB: any = new Date(b.data.date);
+    const diffMillisecond = dayB - dayA;
+    return diffMillisecond;
+  });
+
+  const pathsData = orderedSoftware.map((singleSoftware) => ({
+    params: {
+      slug: singleSoftware.slug,
+    },
+    props: {
+      singleSoftware: singleSoftware,
+    },
+  }));
+  return paginate(pathsData, { pageSize: 3 });
+}
+---
+
+<Layout title="Softwares" description="Yamahara Yoshihiro's Softwares site">
+  <ul class="article-list">
+    {
+      Astro.props.page.data.map((singleSoftware: any) => (
+        <li class="article-item">
+          <div class="article-left">
+            <a href={"/software/" + singleSoftware.params.slug}>
+              <h2 class="japanese">
+                {singleSoftware.props.singleSoftware.data.title}
+              </h2>
+            </a>
+            <div class="date japanese2 etc">
+              <span>
+                {new Date(
+                  singleSoftware.props.singleSoftware.data.date,
+                ).toLocaleDateString("ja-JP", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </span>
+              <span>
+                履修学年:{singleSoftware.props.singleSoftware.data.grad}年
+              </span>
+              <span>単元:{singleSoftware.props.singleSoftware.data.field}</span>
+            </div>
+            <div class="summary japanese2">
+              {singleSoftware.props.singleSoftware.data.excerpt}
+            </div>
+            <div class="bottom">
+              <a href={"/software/" + singleSoftware.params.slug}>続きを読む</a>
+            </div>
+          </div>
+          <div class="article-right">
+            <Image
+              src={singleSoftware.props.singleSoftware.data.image}
+              alt="math-image"
+              width="1200"
+              height="400"
+            />
+          </div>
+        </li>
+      ))
+    }
+    <PrevNext page={Astro.props.page} />
+  </ul>
+</Layout>

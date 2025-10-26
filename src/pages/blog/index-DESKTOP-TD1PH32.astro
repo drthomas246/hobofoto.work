@@ -1,0 +1,89 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../../layouts/blog.astro";
+import ArrowRight from "../../images/arrow-right.svg";
+import { getBlogs } from "../../libs/microcms";
+
+// 日付順に並び替え
+const response = await getBlogs("blogs", {
+  fields: ["id", "title", "publishedAt", "metadescription", "eyecatch"],
+  orders: "-publishedAt",
+});
+// 日付順に並び替え
+
+const pageSize = 3;
+const lastPage = Math.ceil(response.contents.length / pageSize);
+const limiteBlogs = response.contents.slice(0, pageSize);
+const getPath = (page: number) => {
+  return `/blog/page/${page}`;
+};
+---
+
+<Layout title="Blogs" description="HoBoFoTo.work Blogs">
+  <ul class="article-list">
+    {
+      limiteBlogs.map((singleBlog: any) => (
+        <li class="article-item">
+          <div class="article-left">
+            <a href={"/blog/" + singleBlog.id}>
+              <h2 class="japanese">{singleBlog.title}</h2>
+            </a>
+            <div class="date japanese2">
+              {new Date(singleBlog.publishedAt).toLocaleDateString("ja-JP", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </div>
+            <div class="summary japanese2">{singleBlog.metadescription}</div>
+            <div class="bottom">
+              <a href={"/blog/" + singleBlog.id}>続きを読む</a>
+            </div>
+          </div>
+          <div class="article-right">
+            <Image
+              src={singleBlog.eyecatch.url}
+              alt="article-image"
+              width={singleBlog.eyecatch.width}
+              height={singleBlog.eyecatch.height}
+            />
+          </div>
+        </li>
+      ))
+    }
+    <nav class="pnWrapper">
+      <ul class="pagination">
+        <li>
+          <div>1</div>
+        </li>
+        {
+          lastPage > 2 && (
+            <li>
+              <a href={getPath(2)}>2</a>
+            </li>
+          )
+        }
+        {lastPage > 3 && <li class="dot">&#8230;</li>}
+        {
+          lastPage > 1 && (
+            <li>
+              <a href={getPath(lastPage)}>{lastPage}</a>
+            </li>
+          )
+        }
+
+        <!-- 次ページが存在する場合はNEXTリンクを表示する -->
+        {
+          lastPage >= 2 && (
+            <li>
+              <a href={getPath(2)}>
+                Next
+                <Image src={ArrowRight} alt="arrow-right" />
+              </a>
+            </li>
+          )
+        }
+      </ul>
+    </nav>
+  </ul>
+</Layout>

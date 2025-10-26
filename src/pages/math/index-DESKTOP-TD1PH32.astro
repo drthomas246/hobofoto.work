@@ -1,0 +1,95 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import ArrowRight from "../../images/arrow-right.svg";
+import Layout from "../../layouts/math.astro";
+
+const response = await getCollection("math");
+// 日付順に並び替え
+const orderedMath = response.sort((a: any, b: any): number => {
+  const dayA: any = new Date(a.data.date);
+  const dayB: any = new Date(b.data.date);
+  const diffMillisecond = dayB - dayA;
+  return diffMillisecond;
+});
+
+const pageSize = 3;
+const lastPage = Math.ceil(orderedMath.length / pageSize);
+const limitedMaths = orderedMath.slice(0, pageSize);
+const getPath = (page: number) => {
+  return `/math/page/${page}`;
+};
+---
+
+<Layout title="maths" description="Yamahara Yoshihiro's Maths site">
+  <ul class="article-list">
+    {
+      limitedMaths.map((singleMath: any) => (
+        <li class="article-item">
+          <div class="article-left">
+            <a href={"/math/" + singleMath.slug}>
+              <h2 class="japanese">{singleMath.data.title}</h2>
+            </a>
+            <div class="date japanese2 etc">
+              <span>
+                {new Date(singleMath.data.date).toLocaleDateString("ja-JP", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </span>
+              <span>履修学年:{singleMath.data.grad}年</span>
+              <span>単元:{singleMath.data.field}</span>
+            </div>
+            <div class="summary japanese2">{singleMath.data.excerpt}</div>
+            <div class="bottom">
+              <a href={"/math/" + singleMath.slug}>続きを読む</a>
+            </div>
+          </div>
+          <div class="article-right">
+            <Image
+              src={singleMath.data.image}
+              alt="math-image"
+              width="1200"
+              height="400"
+            />
+          </div>
+        </li>
+      ))
+    }
+    <nav class="pnWrapper">
+      <ul class="pagination">
+        <li>
+          <div>1</div>
+        </li>
+        {
+          lastPage > 2 && (
+            <li>
+              <a href={getPath(2)}>2</a>
+            </li>
+          )
+        }
+        {lastPage > 3 && <li class="dot">&#8230;</li>}
+        {
+          lastPage > 1 && (
+            <li>
+              <a href={getPath(lastPage)}>{lastPage}</a>
+            </li>
+          )
+        }
+
+        <!-- 次ページが存在する場合はNEXTリンクを表示する -->
+        {
+          lastPage >= 2 && (
+            <li>
+              <a href={getPath(2)}>
+                Next
+                <Image src={ArrowRight} alt="arrow-right" />
+              </a>
+            </li>
+          )
+        }
+      </ul>
+    </nav>
+  </ul>
+</Layout>
