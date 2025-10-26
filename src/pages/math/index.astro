@@ -80,7 +80,7 @@ const getPath = (page: number) => {
 
         <!-- 次ページが存在する場合はNEXTリンクを表示する -->
         {
-          lastPage > 2 && (
+          lastPage >= 2 && (
             <li>
               <a href={getPath(2)}>
                 Next
